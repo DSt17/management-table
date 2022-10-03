@@ -1,5 +1,5 @@
 <template>
-    <div class="popup_wrapper" ref="popup_wrapper">
+    <div class="calendar_popup_wrapper" ref="popup_wrapper">
 	  <div class="v_popup">
 		<div class="popup_header">
 		    <span>Add new person..</span>
@@ -8,7 +8,7 @@
 		    </span>
 		</div>
 		
-		<div class="popup_content">
+		<div class="calendar_popup_content">
 		    <form v-on:submit.prevent="onSubmit">
 			  <div>
 				<p>Name</p>
@@ -81,13 +81,13 @@ export default {
     align-items: center;
 }
 
-.popup_content {
+.calendar_popup_content {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.popup_wrapper {
+.calendar_popup_wrapper {
     display: flex;
     justify-content: center;
     align-items: center;

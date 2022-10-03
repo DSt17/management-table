@@ -19,8 +19,8 @@
 		    </div>
 		</div>
 	  </td>
-	  <td v-for="(dayInAMonths,idx) in dayInAMonths"
-		v-bind:key="idx">
+	  <td v-for="(i,idx) in arrayForRendering()"
+		:key="idx">
 	  </td>
     </tr>
     <TasksRow
@@ -28,6 +28,8 @@
 	    :key="idx"
 	    :dayInAMonths="dayInAMonths"
 	    :item="item"
+	    :rangeDayArray="rangeDayArray"
+	    :clickedCalendar="clickedCalendarValue"
     />
     </tbody>
 </template>
@@ -38,13 +40,22 @@ import TasksRow from '@/components/Table/TaskRow'
 
 
 export default {
-    props: ["item", "dayInAMonths"],
+    props: ["item", "dayInAMonths", "rangeDayArray", "clickedCalendarValue"],
     data() {
 	  return {
 		clicked: false,
 	  }
     },
-    methods: {},
+    methods: {
+	  arrayForRendering() {
+		if (this.clickedCalendarValue === true) {
+		    return this.rangeDayArray
+		} else {
+		    return this.dayInAMonths
+		}
+	  }
+    },
+    
     components: {TasksRow},
 }
 </script>

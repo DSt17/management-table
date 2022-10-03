@@ -5,6 +5,15 @@
 		  @closePopup="closePopup"
 		  @AddNewUser="AddNewUser"
 	  />
+	  <CalendarPopup
+		  v-if="isCalendarPopupVisible"
+		  @closeCalendarPopup="closeCalendarPopup"
+		  @rangeDayOfTheWeekNumberArray="rangeDay"
+		  @deyStart="setDeyStart"
+		  @dayFinish="setDayFinish"
+		  @clickedCalendarMonths="setClickedCalendarMonths"
+	  />
+	  
 	  
 	  <div class="table-header-navbar-box">
 		<div class="header-navbar-navigation-box">
@@ -36,11 +45,21 @@
 			  <span>Add new person </span>
 			  <i style="color: white; font-size: 20px" class="material-icons">person_add</i>
 		    </div>
-		    <div class="month-button">
-			  <span><<</span>
-			  <i style="font-size: 20px" class="material-icons">calendar_month</i>
-			  <span>>></span>
+		    
+		    <div class="month-button" style="color: white">
+			  <span @click="prevMonth"><<</span>
+			  <div style="display: flex; flex-direction: row; width: 120px; justify-content: space-between;align-items: center">
+				<div v-if="clickedCalendar === false">{{ currentMonth }}</div>
+				<div v-if="clickedCalendar === true" style="font-size: 8px">{{ dayStart.replace(/-/g, '/') }} -
+				    {{ dayFinish.replace(/-/g, '/') }}
+				</div>
+				<div><i @click="showCalendarPopupInfo" style="font-size: 20px; padding-top: 4px"
+					  class="material-icons">calendar_month</i>
+				</div>
+			  </div>
+			  <span @click="nextMonth">>></span>
 		    </div>
+		
 		</div>
 	  </div>
 	  <div>
@@ -53,9 +72,10 @@
 				</div>
 			  </td>
 			  <td
-				  v-for="(day,idx) in dayInAMonths"
+				  v-for="(day,idx) in arrayForRendering()"
 				  :key="idx"
-			  >{{ day }}
+				  :class="new Date(day).getDay() === 6 || new Date(day).getDay() === 0 ? 'weekendDay' : '' "
+			  >{{ new Date(day).getDate() }}
 			  </td>
 		    </tr>
 		</table>
@@ -68,11 +88,12 @@
 <script>
 import vSelect from '@/components/Table/vSelect'
 import addUserFormPopup from '@/components/Table/addUserFormPopup'
+import CalendarPopup from '@/components/Table/CalendarPopup'
 
 export default {
     name: "TableHeader",
     props: {
-	  dayInAMonths: Number,
+	  dayInAMonths: Array,
 	  options: {
 		type: Array,
 		default: []
@@ -85,7 +106,16 @@ export default {
     data() {
 	  return {
 		isInfoPopupVisible: false,
+		isCalendarPopupVisible: false,
+		clickedCalendar: false,
 		filteredValue: '',
+		rangeDayArray: [],
+		
+		dayStart: '',
+		dayFinish: '',
+		currentMonth: 'October',
+		currentYear: 2022,
+		months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
 	  }
     },
     methods: {
@@ -103,14 +133,63 @@ export default {
 	  },
 	  AddNewUser(newUser) {
 		this.$emit('AddNewUser', newUser)
+	  },
+	  showCalendarPopupInfo() {
+		this.isCalendarPopupVisible = true
+	  },
+	  closeCalendarPopup() {
+		this.isCalendarPopupVisible = false
+	  },
+	  rangeDay(array) {
+		this.rangeDayArray = array
+		this.$emit('rangeDayArray', this.rangeDayArray)
+	  },
+	  prevMonth() {
+		this.clickedCalendar = false
+		this.$emit('clickedCalendar', this.clickedCalendar)
+		if (this.months.indexOf(this.currentMonth) > 0) {
+		    this.currentMonth = this.months[this.months.indexOf(this.currentMonth) - 1]
+		} else {
+		    this.clickedCalendar = false
+		    this.currentMonth = "December"
+		    this.currentYear--
+		}
+	  },
+	  nextMonth() {
+		this.clickedCalendar = false
+		this.$emit('clickedCalendar', this.clickedCalendar)
+		if (this.months.indexOf(this.currentMonth) < 11) {
+		    this.currentMonth = this.months[this.months.indexOf(this.currentMonth) + 1]
+		} else {
+		    this.clickedCalendar = false
+		    this.currentMonth = "January"
+		    this.currentYear++
+		}
+	  },
+	  setDeyStart(dayStart) {
+		this.dayStart = dayStart
+	  },
+	  setDayFinish(dayFinish) {
+		this.dayFinish = dayFinish
+	  },
+	  setClickedCalendarMonths(value) {
+		this.clickedCalendar = value
+		this.$emit('clickedCalendar', this.clickedCalendar)
+	  },
+	  arrayForRendering() {
+		if (this.clickedCalendar === true) {
+		    return this.rangeDayArray
+		} else {
+		    return this.dayInAMonths
+		}
 	  }
     },
     watch: {
-	  filteredValue(filteredValue){
+	  filteredValue(filteredValue) {
 		this.$emit('filteredValue', filteredValue)
 	  }
     },
-    components: {vSelect, addUserFormPopup}
+    components: {vSelect, addUserFormPopup, CalendarPopup}
 }
 </script>
 
@@ -169,21 +248,20 @@ td {
 }
 
 .month-button {
-    width: 160px;
-    margin-left: 100px;
+    width: 220px;
+    margin-left: 70px;
     display: flex;
     justify-content: space-around;
+    align-items: center;
 }
 
 .month-button span {
     color: white;
 }
 
-.month-button i {
-    color: white;
-    font-size: 17px;
-    margin-left: 30px;
-    margin-right: 30px;
+.weekendDay {
+    background-color: #f3f2f2;
 }
+
 
 </style>
