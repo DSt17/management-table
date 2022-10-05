@@ -68,7 +68,6 @@ export default {
 		this.$emit('deyStart', this.dayStart)
 		this.$emit('dayFinish', this.dayFinish)
 		this.$emit('rangeDayOfTheWeekNumberArray', this.rangeDayOfTheWeekNumberArray)
-		
 	  },
     },
     mounted() {
@@ -79,19 +78,21 @@ export default {
 		}
 	  })
     }
-    
 }
+
 </script>
 
 <style scoped>
 .v_popup {
     color: white;
     position: fixed;
-    top: 90px;
-    left: 807px;
+    top: 100px;
+    left: 803px;
     width: 190px;
     background: #346977;
     box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+    border: 1px solid white;
+    z-index: 1;
 }
 
 .popup_header {

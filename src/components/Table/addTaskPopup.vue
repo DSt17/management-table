@@ -2,25 +2,16 @@
     <div class="popup_wrapper" ref="popup_wrapper">
 	  <div class="v_popup">
 		<div class="popup_header">
-		    <p style="font-size: 12px;margin-left: 10px">Fill out the form (all fields are required)</p>
+		    <p style="font-size: 18px;margin-left: 10px">{{ item.title }}</p>
 		    <span>
-			  <i class="material-icons" v-on:click="closePopup">cancel</i>
+			  <i class="material-icons" v-on:click="closeAddTaskPopup">cancel</i>
 		    </span>
 		</div>
 		<div>
 		    <form v-on:submit.prevent="onSubmit">
+			  
 			  <div style="display: flex; flex-direction: column; padding: 5px">
 				<div class="formBody">
-				    <div>
-					  <span>Name:</span>
-					  <input class="myValidate"
-						   type="text"
-						   v-model="newUserName"
-						   placeholder="person name.."
-						   title="value must be a string!"
-						   pattern="^[a-zA-Z\s]+$"
-					  >
-				    </div>
 				    <div>
 					  <span>Task:</span>
 					  <input type="text"
@@ -42,20 +33,20 @@
 				    </div>
 				    <div>
 					  <span>Day start:</span>
-					  <input type="date" id="date1" v-model="dayStart">
+					  <input type="date" v-model="dayStart">
 				    </div>
 				    <div>
 					  <span>Day finish:</span>
 					  <input type="date" v-model="dayFinish">
 				    </div>
-				</div>
-				<div>
-				    <button type="submit"
-						@click="onSubmit"
-						:disabled="isDisabled"
-				    >
-					  Add
-				    </button>
+				    <div>
+					  <button type="submit"
+						    @click="onSubmit"
+						    :disabled="isDisabled"
+					  >
+						Add
+					  </button>
+				    </div>
 				</div>
 			  </div>
 		    </form>
@@ -64,78 +55,71 @@
     </div>
 </template>
 
-
 <script>
 export default {
-    name: "addUserFormPopup",
+    name: "addTaskPopup",
+    props: ["item"],
     data() {
 	  return {
-		newUserName: '',
 		taskTitle: '',
 		selectedCustomer: '',
 		dayStart: '',
 		dayFinish: '',
 		customers: ['FuryLion', 'Google', 'IBM', 'Microsoft', 'Yandex']
+		
+		
 	  }
     },
     methods: {
-	  closePopup() {
-		this.$emit('closePopup')
+	  closeAddTaskPopup() {
+		this.$emit('closeAddTaskPopup')
 	  },
 	  onSubmit() {
-		if (this.newUserName.trim() !== '' && this.taskTitle.trim() !== ''
-			&& this.selectedCustomer.trim() !== '' && this.dayStart.trim() !== ''
-			&& this.dayFinish.trim() !== '') {
-		    const newUser = {
-			  id: new Date().getTime(),
-			  title: this.newUserName,
-			  status: 'in Process',
-			  projects: [
-				{
+		if (this.taskTitle.trim() !== '' && this.selectedCustomer.trim() !== ''
+			&& this.dayStart.trim() !== '' && this.dayFinish.trim() !== '') {
+		    const newTask = {
 				    task: this.taskTitle,
 				    customer: this.selectedCustomer,
 				    workingTimeHours: 5,
 				    dayStart: this.dayStart.replace(/-/g, '/'),
 				    dayFinish: this.dayFinish.replace(/-/g, '/')
-				},
-			  ]
 		    }
-		    this.$emit('AddNewUser', newUser)
+		    this.$emit('AddNewTask', newTask,this.item.id)
 		    this.newUserName = ''
 		    this.selectedCustomer = ''
 		    this.taskTitle = ''
 		}
 	  },
+    
     },
     mounted() {
 	  let vm = this;
 	  document.addEventListener('click', function (item) {
 		if (item.target === vm.$refs['popup_wrapper']) {
-		    vm.closePopup()
+		    vm.closeAddTaskPopup()
 		}
 	  })
     },
     computed: {
 	  isDisabled() {
-		return this.newUserName.trim() !== '' && !Number(this.newUserName)
-		&& this.taskTitle.trim() !== '' && !Number(this.taskTitle)
+		return  this.taskTitle.trim() !== '' && !Number(this.taskTitle)
 		&& this.selectedCustomer.trim() !== '' && this.dayStart.trim() !== ''
 		&& this.dayFinish.trim() !== '' ? false : true;
 	  },
     }
+    
 }
 </script>
 
 <style scoped>
-
 .v_popup {
     color: white;
     padding: 2px;
     position: fixed;
-    top: 120px;
-    left: 488px;
-    width: 250px;
-    height: 240px;
+    top: 135px;
+    left: 179px;
+    width: 205px;
+    height: 248px;
     background: #346977;
     box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
     border: 1px solid white;
@@ -163,14 +147,12 @@ form {
     width: 100%;
     height: 100%;
 }
-
 .formBody div {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     padding-top: 10px;
 }
-
 button {
     border-color: white;
     width: 80px;
@@ -185,6 +167,6 @@ input:focus:invalid {
 
 input {
     outline: none;
-    width: 150px;
+    width: 100px;
 }
 </style>

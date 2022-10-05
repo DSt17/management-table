@@ -2,20 +2,12 @@
     <tbody>
     <tr>
 	  <td class="user-box-header">
-		<div style="display: flex; flex-direction: row; justify-content:center;align-items: center">
-		    <div style="width: 100px">
+		<div style="display: flex; flex-direction: row; justify-content:space-between;align-items: center">
+		    <div style="width: 125px">
 			  {{ item.title }}
 		    </div>
-		    <div class="dropdown-box">
-			  <i class="material-icons menu">add_task</i>
-			  <div class="dropdown-content">
-				<div>
-				    <button>Add Task</button>
-				</div>
-				<div>
-				    <button> Settings</button>
-				</div>
-			  </div>
+		    <div>
+			  <span style="cursor: pointer" @click="showAddTaskPopup" class="material-icons">playlist_add</span>
 		    </div>
 		</div>
 	  </td>
@@ -38,7 +30,6 @@
 <script>
 import TasksRow from '@/components/Table/TaskRow'
 
-
 export default {
     props: ["item", "dayInAMonths", "rangeDayArray", "clickedCalendarValue"],
     data() {
@@ -53,9 +44,11 @@ export default {
 		} else {
 		    return this.dayInAMonths
 		}
+	  },
+	  showAddTaskPopup() {
+		this.$emit('showAddTaskPopup', this.item)
 	  }
     },
-    
     components: {TasksRow},
 }
 </script>
@@ -65,43 +58,14 @@ export default {
 td {
     border: 1px solid black;
     border-top: none;
-    width: 25px;
-    height: 25px;
-}
-
-.dropdown-box {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-    z-index: 1;
-}
-
-.dropdown-content button {
-    width: 100%;
-    height: 100%;
-}
-
-.dropdown-content a:hover {
-    background-color: #ddd;
-}
-
-.dropdown-box:hover .dropdown-content {
-    display: block;
 }
 
 .user-box-header {
-    width: 120px;
+    min-width: 150px;
+    max-width: 150px;
     font-size: 13px;
     font-weight: bold;
     background-color: #346977;
-    color: white
+    color: white;
 }
-
 </style>

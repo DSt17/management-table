@@ -1,14 +1,16 @@
 <template>
     <tr>
-	  <td style="width: 150px; font-size: 10px;">
+	  <td style="max-width: 150px; font-size: 10px;">
 		{{ item.task }} ({{ item.customer }})
 	  </td>
 	  <td v-for="(day,idx) in arrayForRendering()"
 		:key="idx"
-		:class="workAndweekendClass(day)">
-		<span style="font-size: 12px">{{
+		:class="workAndWeekendClass(day)">
+		<span style="font-size: 10px">
+		    {{
 			  idx + 1 === new Date(item.dayStart).getDate() ? item.workingTimeHours : ''
-		    }}</span>
+		    }}
+		</span>
 	  </td>
     </tr>
 </template>
@@ -25,7 +27,7 @@ export default {
 		    return this.dayInAMonths
 		}
 	  },
-	  workAndweekendClass(day) {
+	  workAndWeekendClass(day) {
 		let weekendDayCount = 0
 		if (new Date(day).getDay() === 6 || new Date(day).getDay() === 0) {
 		    return 'weekendDay'
@@ -41,12 +43,11 @@ export default {
 			  weekendDayCount += 1
 			  return 'weekendDay'
 		    } else {
-			  debugger
-			  return 'working-day-color'
+		    return new Date(day).getMonth() === new Date(this.item.dayStart).getMonth() ||
+		    new Date(day).getMonth() === new Date(this.item.dayFinish).getMonth()  ? 'working-day-color' : ''
 		    }
 		}
 	  }
-	  
     }
 }
 </script>

@@ -3,22 +3,39 @@
 	  
 	  
 	  <div class="table-header">
-		<table>
-		    <TableHeader
-			    :dayInAMonths="dayInAMonths"
-			    :options="options"
-			    :selected="selected"
-			    @AddNewUser="AddNewUser"
-			    @sortedByName="sortedByName"
-			    @optionSelect="optionSelect"
-			    @filteredValue="changeFilteredValue"
-			    @rangeDayArray="rangeDayArray"
-			    @clickedCalendar="setCLickedCalendar"
-		    />
-		</table>
+		<TableHeader
+			:item="item"
+			:taskPopupVisible="addTaskPopupVisible"
+			:options="options"
+			:selected="selected"
+			@AddNewUser="AddNewUser"
+			@AddNewTask="AddNewTask"
+			@sortedByName="sortedByName"
+			@optionSelect="optionSelect"
+			@filteredValue="changeFilteredValue"
+			@rangeDayArray="rangeDayArray"
+			@clickedCalendarValue="setCLickedCalendar"
+			@closeAddTaskPopup="closeAddTaskPopup"
+		/>
+	  
 	  </div>
-	  <div class="scroll-table-body">
-		<table>
+	  <div class="scrollTableBody">
+		<table id="table">
+		    <tr style="position: sticky; top: 0; background: white">
+			  <td style="max-width: 150px;">
+				<div style="display: flex; flex-direction: row; justify-content: space-around">
+				    <div style="border-right: 1px solid black;width: 50%">Name</div>
+				    <div>Client</div>
+				</div>
+			  </td>
+			  <td
+				  v-for="(day,idx) in arrayForRendering()"
+				  :key="idx"
+				  :class="new Date(day).getDay() === 6 || new Date(day).getDay() === 0 ? 'weekendDay' : '' "
+			  ><span style="font-size: 12px; font-weight: bold">{{ new Date(day).getDate() }}</span>
+			  </td>
+		    </tr>
+		    
 		    <TableDateRow
 			    v-for="(item,idx) in changeFilteredValue()"
 			    :key="idx"
@@ -26,9 +43,18 @@
 			    :dayInAMonths="dayInAMonths"
 			    :rangeDayArray="rangeDay"
 			    :clickedCalendarValue="cLickedCalendar"
-		    
+			    @showAddTaskPopup="showAddTaskPopup"
 		    />
 		</table>
+	  </div>
+	  <div class="scrollFooterBox">
+		<input type="range" class="slider"
+			 step="1"
+			 min="1"
+			 max="100"
+			 v-model.number="maxTableSize"
+			 @change="changeTableSize"
+		>
 	  </div>
     </div>
 
@@ -229,7 +255,10 @@ export default {
 				    dayFinish: "10/14/2022",
 				}]
 		    },
-		]
+		],
+		maxTableSize: 50,
+		addTaskPopupVisible: false,
+		item: {}
 	  }
     },
     methods: {
@@ -260,11 +289,36 @@ export default {
 	  AddNewUser(newUser) {
 		this.state.unshift(newUser)
 	  },
-	  rangeDayArray(array) {
-		this.rangeDay = array
+	  AddNewTask(NewTask, UserId) {
+		let findedUser = this.state.find(el => el.id === UserId)
+		findedUser.projects.push(NewTask)
+		
+	  },
+	  rangeDayArray(rangeDayArray) {
+		this.rangeDay = rangeDayArray
 	  },
 	  setCLickedCalendar(value) {
 		this.cLickedCalendar = value
+	  },
+	  arrayForRendering() {
+		if (this.cLickedCalendar === true) {
+		    return this.rangeDay
+		    
+		} else {
+		    return this.dayInAMonths
+		}
+	  },
+	  changeTableSize() {
+		let table = document.getElementById('table')
+		table.width = 51500 / this.maxTableSize
+	  },
+	  showAddTaskPopup(item) {
+		this.addTaskPopupVisible = true
+		this.item = item
+		debugger
+	  },
+	  closeAddTaskPopup() {
+		this.addTaskPopupVisible = false
 	  },
 	  
 	  
@@ -290,18 +344,15 @@ export default {
 
 
 <style>
-.table-header table {
-    border-collapse: collapse
-}
 
-.scroll-table-body {
+.scrollTableBody {
     height: 350px;
-    overflow-x: auto;
+    overflow: scroll;
 }
 
-.scroll-table-body table {
+.scrollTableBody table {
     border-collapse: collapse;
-    border-bottom: 1px solid black
+    border-bottom: 1px solid black;
 }
 
 ::-webkit-scrollbar {
@@ -319,5 +370,47 @@ export default {
 .table-box {
     width: 1030px;
     box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.2);
+}
+
+.weekendDay {
+    background-color: #f3f2f2;
+}
+
+td {
+    width: 26px;
+    height: 25px;
+    min-height: 15px;
+    min-width: 15px;
+}
+
+.scrollFooterBox {
+    width: 100%;
+    height: 22px;
+    background-color: #346977;
+}
+
+.slider {
+    -webkit-appearance: none;
+    height: 3px;
+    background: #fdfcfc;
+    outline: none;
+    opacity: 0.3;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    width: 300px
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 11px;
+    height: 11px;
+    border-radius: 100%;
+    border: 1px solid black;
+    background: white;
+    cursor: pointer;
 }
 </style>
