@@ -43,8 +43,8 @@ export default {
 			  weekendDayCount += 1
 			  return 'weekendDay'
 		    } else {
-		    return new Date(day).getMonth() === new Date(this.item.dayStart).getMonth() ||
-		    new Date(day).getMonth() === new Date(this.item.dayFinish).getMonth()  ? 'working-day-color' : ''
+			  return new Date(day).getMonth() === new Date(this.item.dayStart).getMonth() ||
+			  new Date(day).getMonth() === new Date(this.item.dayFinish).getMonth() ? 'working-day-color' : ''
 		    }
 		}
 	  }
@@ -53,6 +53,7 @@ export default {
 </script>
 
 <style scoped>
+
 .working-day-color {
     background-color: #00d90087;
     border: none;

@@ -7,6 +7,15 @@
 			  <i class="material-icons" v-on:click="closeAddTaskPopup">cancel</i>
 		    </span>
 		</div>
+		<span v-if="new Date(this.dayStart).getDay() === 6 || new Date(this.dayStart).getDay() === 0 ||
+						new Date(this.dayFinish).getDay() === 6 || new Date(this.dayFinish).getDay() === 0"
+			style="color:red ; font-size: 14px;text-shadow:black 0 2px 5px"
+		>
+						  Don't take a day off!!!
+					  </span>
+		<span v-else style="color:white ; font-size: 12px">
+				    don't take a day off in calendar..
+				</span>
 		<div>
 		    <form v-on:submit.prevent="onSubmit">
 			  
@@ -33,11 +42,21 @@
 				    </div>
 				    <div>
 					  <span>Day start:</span>
-					  <input type="date" v-model="dayStart">
+					  <input
+						  :class="new Date(this.dayStart).getDay() === 6 ||
+					     new Date(this.dayStart).getDay() === 0  ? 'incorrectValue' : '' "
+						  type="date"
+						  v-model="dayStart"
+					  >
 				    </div>
 				    <div>
 					  <span>Day finish:</span>
-					  <input type="date" v-model="dayFinish">
+					  <input
+						  :class="new Date(this.dayFinish).getDay() === 6 ||
+					     new Date(this.dayFinish).getDay() === 0 ? 'incorrectValue' : '' "
+						  type="date"
+						  v-model="dayFinish"
+					  >
 				    </div>
 				    <div>
 					  <button type="submit"
@@ -78,19 +97,19 @@ export default {
 		if (this.taskTitle.trim() !== '' && this.selectedCustomer.trim() !== ''
 			&& this.dayStart.trim() !== '' && this.dayFinish.trim() !== '') {
 		    const newTask = {
-				    task: this.taskTitle,
-				    customer: this.selectedCustomer,
-				    workingTimeHours: 5,
-				    dayStart: this.dayStart.replace(/-/g, '/'),
-				    dayFinish: this.dayFinish.replace(/-/g, '/')
+			  task: this.taskTitle,
+			  customer: this.selectedCustomer,
+			  workingTimeHours: 5,
+			  dayStart: this.dayStart.replace(/-/g, '/'),
+			  dayFinish: this.dayFinish.replace(/-/g, '/')
 		    }
-		    this.$emit('AddNewTask', newTask,this.item.id)
+		    this.$emit('AddNewTask', newTask, this.item.id)
 		    this.newUserName = ''
 		    this.selectedCustomer = ''
 		    this.taskTitle = ''
 		}
 	  },
-    
+	  
     },
     mounted() {
 	  let vm = this;
@@ -102,9 +121,11 @@ export default {
     },
     computed: {
 	  isDisabled() {
-		return  this.taskTitle.trim() !== '' && !Number(this.taskTitle)
+		return this.taskTitle.trim() !== '' && !Number(this.taskTitle)
 		&& this.selectedCustomer.trim() !== '' && this.dayStart.trim() !== ''
-		&& this.dayFinish.trim() !== '' ? false : true;
+		&& this.dayFinish.trim() !== '' && new Date(this.dayStart).getDay() !== 6
+		&& new Date(this.dayStart).getDay() !== 0 && new Date(this.dayFinish).getDay() !== 6
+		&& new Date(this.dayFinish).getDay() !== 0 ? false : true;
 	  },
     }
     
@@ -119,7 +140,7 @@ export default {
     top: 135px;
     left: 179px;
     width: 205px;
-    height: 248px;
+    height: 260px;
     background: #346977;
     box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
     border: 1px solid white;
@@ -147,12 +168,14 @@ form {
     width: 100%;
     height: 100%;
 }
+
 .formBody div {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     padding-top: 10px;
 }
+
 button {
     border-color: white;
     width: 80px;
@@ -168,5 +191,9 @@ input:focus:invalid {
 input {
     outline: none;
     width: 100px;
+}
+
+.incorrectValue {
+    border: 2px solid red;
 }
 </style>

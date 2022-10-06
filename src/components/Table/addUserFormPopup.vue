@@ -7,6 +7,15 @@
 			  <i class="material-icons" v-on:click="closePopup">cancel</i>
 		    </span>
 		</div>
+		<span v-if="new Date(this.dayStart).getDay() === 6 || new Date(this.dayStart).getDay() === 0 ||
+						new Date(this.dayFinish).getDay() === 6 || new Date(this.dayFinish).getDay() === 0"
+			style="color:red ; font-size: 14px;text-shadow:black 0 2px 5px"
+		>
+						  Don't take a day off!!!
+					  </span>
+		<span v-else style="color:white ; font-size: 12px">
+				    don't take a day off in calendar..
+				</span>
 		<div>
 		    <form v-on:submit.prevent="onSubmit">
 			  <div style="display: flex; flex-direction: column; padding: 5px">
@@ -42,11 +51,21 @@
 				    </div>
 				    <div>
 					  <span>Day start:</span>
-					  <input type="date" id="date1" v-model="dayStart">
+					  <input
+						  :class="new Date(this.dayStart).getDay() === 6 ||
+					     new Date(this.dayStart).getDay() === 0  ? 'incorrectValue' : '' "
+						  type="date"
+						  v-model="dayStart"
+					  >
 				    </div>
 				    <div>
 					  <span>Day finish:</span>
-					  <input type="date" v-model="dayFinish">
+					  <input
+						  :class="new Date(this.dayFinish).getDay() === 6 ||
+					     new Date(this.dayFinish).getDay() === 0 ? 'incorrectValue' : '' "
+						  type="date"
+						  v-model="dayFinish"
+					  >
 				    </div>
 				</div>
 				<div>
@@ -120,7 +139,10 @@ export default {
 		return this.newUserName.trim() !== '' && !Number(this.newUserName)
 		&& this.taskTitle.trim() !== '' && !Number(this.taskTitle)
 		&& this.selectedCustomer.trim() !== '' && this.dayStart.trim() !== ''
-		&& this.dayFinish.trim() !== '' ? false : true;
+		&& this.dayFinish.trim() !== '' && new Date(this.dayStart).getDay() !== 6 &&
+		new Date(this.dayStart).getDay() !== 0 &&
+		new Date(this.dayFinish).getDay() !== 6 &&
+		new Date(this.dayFinish).getDay() !== 0 ? false : true;
 	  },
     }
 }
@@ -135,7 +157,7 @@ export default {
     top: 120px;
     left: 488px;
     width: 250px;
-    height: 240px;
+    height: 265px;
     background: #346977;
     box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
     border: 1px solid white;
@@ -186,5 +208,9 @@ input:focus:invalid {
 input {
     outline: none;
     width: 150px;
+}
+
+.incorrectValue {
+    border: 2px solid red;
 }
 </style>

@@ -292,7 +292,6 @@ export default {
 	  AddNewTask(NewTask, UserId) {
 		let findedUser = this.state.find(el => el.id === UserId)
 		findedUser.projects.push(NewTask)
-		
 	  },
 	  rangeDayArray(rangeDayArray) {
 		this.rangeDay = rangeDayArray
@@ -320,7 +319,6 @@ export default {
 	  closeAddTaskPopup() {
 		this.addTaskPopupVisible = false
 	  },
-	  
 	  
 	  //------need to fix with Dmitry-------------//
 	  changeFilteredValue(value) {

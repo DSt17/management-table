@@ -2,30 +2,48 @@
     <div class="calendar_popup_wrapper" ref="calendar_popup_wrapper">
 	  <div class="v_popup">
 		<div class="popup_header">
-		    <span style="padding-left: 5px">Add range date..</span>
+		    <span style="padding-left: 5px">Add range date.</span>
 		    <span>
 			  <i style="font-size: 18px" class="material-icons" v-on:click="closeCalendarPopup">cancel</i>
 		    </span>
 		</div>
+		
 		<div class="calendar_popup_content">
 		    <form v-on:submit.prevent="onSubmit">
 			  <div style="display: flex; flex-direction: column">
-				<div style="display: flex; flex-direction: row; justify-content: space-around; width: 100%">
-				    <p style="font-size: 10px">Day start: </p>
+				<span v-if="new Date(this.dayStart).getDay() === 6 || new Date(this.dayStart).getDay() === 0 ||
+						new Date(this.dayFinish).getDay() === 6 || new Date(this.dayFinish).getDay() === 0"
+					style="color:red ; font-size: 12px; text-shadow:black 0 2px 5px"
+				>
+						  Don't take a day off!!!
+					  </span>
+				<span v-else style="color:white ; font-size: 12px">
+				    don't take a day off in calendar..
+				</span>
+				
+				
+				<div style="display: flex; flex-direction: row;justify-content: space-between; height: 35px">
+				    <span>Day start: </span>
 				    <input
+					    :class="new Date(this.dayStart).getDay() === 6 ||
+					     new Date(this.dayStart).getDay() === 0  ? 'incorrectValue' : '' "
 					    type="date"
 					    v-model="dayStart"
 				    >
 				</div>
-				<div style="display: flex; flex-direction: row; justify-content: space-around; width: 100%">
-				    <p style="font-size: 10px">Day finish: </p>
+				<div style="display: flex; flex-direction: row;justify-content: space-between; height: 35px">
+				    <span>Day finish: </span>
 				    <input
+					    :class="new Date(this.dayFinish).getDay() === 6 ||
+					     new Date(this.dayFinish).getDay() === 0 ? 'incorrectValue' : '' "
 					    type="date"
 					    v-model="dayFinish"
 				    >
 				</div>
+				
 				<button ref="buttonPopup"
 					  type="submit"
+					  :disabled="isDisabled"
 					  @click="onSubmit"
 				>Apply
 				</button>
@@ -69,14 +87,24 @@ export default {
 		this.$emit('dayFinish', this.dayFinish)
 		this.$emit('rangeDayOfTheWeekNumberArray', this.rangeDayOfTheWeekNumberArray)
 	  },
+	  mounted() {
+		let vm = this;
+		document.addEventListener('click', function (item) {
+		    if (item.target === vm.$refs['calendar_popup_wrapper'] || item.target === vm.$refs['buttonPopup']) {
+			  vm.closeCalendarPopup()
+		    }
+		})
+	  },
+	  
     },
-    mounted() {
-	  let vm = this;
-	  document.addEventListener('click', function (item) {
-		if (item.target === vm.$refs['calendar_popup_wrapper'] || item.target === vm.$refs['buttonPopup']) {
-		    vm.closeCalendarPopup()
-		}
-	  })
+    computed: {
+	  isDisabled() {
+		return !(new Date(this.dayStart).getDay() !== 6 &&
+			new Date(this.dayStart).getDay() !== 0 &&
+			new Date(this.dayFinish).getDay() !== 6 &&
+			new Date(this.dayFinish).getDay() !== 0 &&
+			this.dayStart.trim() && this.dayFinish.trim()) ? true : false;
+	  },
     }
 }
 
@@ -135,6 +163,7 @@ form input {
 }
 
 form button {
+    margin-top: 5px;
     border-color: white;
     width: 50px;
     margin-bottom: 2px;
@@ -144,4 +173,8 @@ span {
     font-size: 10px;
 }
 
+.incorrectValue {
+    border: 2px solid red;
+    outline: none;
+}
 </style>

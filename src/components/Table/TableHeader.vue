@@ -32,11 +32,11 @@
 			  >
 		    </div>
 		    <div class="switchBox">
-			  <span>Employee</span>
+			  <span @click="changeToggleFalse">Employee</span>
 			  <div style=" display: flex; align-items: center;">
-				<input type="checkbox">
+				<input id="switchBoxToggle" type="checkbox">
 			  </div>
-			  <span>Company</span>
+			  <span @click="changeToggleTrue">Company</span>
 		    </div>
 		    <div class="sort-button"
 			   @click="sortedByName">
@@ -167,6 +167,13 @@ export default {
 		this.clickedCalendar = value
 		this.$emit('clickedCalendarValue', this.clickedCalendar)
 	  },
+	  changeToggleFalse() {
+		document.getElementById('switchBoxToggle').checked = false
+		
+	  },
+	  changeToggleTrue() {
+		document.getElementById('switchBoxToggle').checked = true
+	  }
     },
     watch: {
 	  filteredValue(filteredValue) {
@@ -259,7 +266,7 @@ span {
 
 .switchBox span {
     font-size: 10px;
-    color: white
+    color: white;
 }
 
 input[type="checkbox"] {
@@ -273,7 +280,6 @@ input[type="checkbox"] {
     transition: .5s;
     box-shadow: inset 0 0 5px rgba(0, 0, 0, .2);
 }
-
 
 
 input[type="checkbox"]:before {
