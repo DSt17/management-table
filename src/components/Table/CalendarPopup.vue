@@ -13,7 +13,7 @@
 			  <div style="display: flex; flex-direction: column">
 				<span v-if="new Date(this.dayStart).getDay() === 6 || new Date(this.dayStart).getDay() === 0 ||
 						new Date(this.dayFinish).getDay() === 6 || new Date(this.dayFinish).getDay() === 0"
-					style="color:red ; font-size: 12px; text-shadow:black 0 2px 5px"
+					style="color:#ff6e6e ; font-size: 12px; text-shadow:black 0 2px 5px"
 				>
 						  Don't take a day off!!!
 					  </span>
