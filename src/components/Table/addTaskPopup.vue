@@ -85,8 +85,6 @@ export default {
 		dayStart: '',
 		dayFinish: '',
 		customers: ['FuryLion', 'Google', 'IBM', 'Microsoft', 'Yandex']
-		
-		
 	  }
     },
     methods: {

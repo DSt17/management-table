@@ -87,15 +87,14 @@ export default {
 		this.$emit('dayFinish', this.dayFinish)
 		this.$emit('rangeDayOfTheWeekNumberArray', this.rangeDayOfTheWeekNumberArray)
 	  },
-	  mounted() {
-		let vm = this;
-		document.addEventListener('click', function (item) {
-		    if (item.target === vm.$refs['calendar_popup_wrapper'] || item.target === vm.$refs['buttonPopup']) {
-			  vm.closeCalendarPopup()
-		    }
-		})
-	  },
-	  
+    },
+    mounted() {
+	  let vm = this;
+	  document.addEventListener('click', function (item) {
+		if (item.target === vm.$refs['calendar_popup_wrapper'] || item.target === vm.$refs['buttonPopup']) {
+		    vm.closeCalendarPopup()
+		}
+	  })
     },
     computed: {
 	  isDisabled() {

@@ -21,7 +21,12 @@
 	  </div>
 	  <div class="scrollTableBody">
 		<table id="table">
-		    <tr style="position: sticky; top: 0; background: white">
+		    <tr style="position: sticky; top: 0; background: white;">
+			  <td style="height: 15px;background-color: #346977" colspan="32">
+				
+			  </td>
+		    </tr>
+		    <tr style="position: sticky; top: 18px; background: white; ">
 			  <td style="max-width: 150px;">
 				<div style="display: flex; flex-direction: row; justify-content: space-around">
 				    <div style="border-right: 1px solid black;width: 50%">Name</div>
@@ -314,7 +319,6 @@ export default {
 	  showAddTaskPopup(item) {
 		this.addTaskPopupVisible = true
 		this.item = item
-		debugger
 	  },
 	  closeAddTaskPopup() {
 		this.addTaskPopupVisible = false
@@ -349,7 +353,8 @@ export default {
 }
 
 .scrollTableBody table {
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     border-bottom: 1px solid black;
 }
 
@@ -377,8 +382,8 @@ export default {
 td {
     width: 26px;
     height: 25px;
-    min-height: 15px;
-    min-width: 15px;
+    min-height: 10px;
+    min-width: 10px;
 }
 
 .scrollFooterBox {

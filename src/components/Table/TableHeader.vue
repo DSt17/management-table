@@ -193,7 +193,6 @@ td {
 .table-header-navbar-box {
     border: 1px solid black;
     height: 25px;
-    width: 100%;
     background-color: #346977;
     display: flex;
     flex-direction: column;
