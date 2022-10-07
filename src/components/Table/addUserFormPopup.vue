@@ -155,13 +155,14 @@ export default {
     padding: 2px;
     position: fixed;
     top: 120px;
-    left: 488px;
+    left: 555px;
     width: 250px;
     height: 265px;
     background: #346977;
     box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
     border: 1px solid white;
     border-radius: 5px;
+    z-index: 2;
 }
 
 .popup_header {

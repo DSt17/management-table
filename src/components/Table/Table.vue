@@ -23,7 +23,11 @@
 		<table id="table">
 		    <tr style="position: sticky; top: 0; background: white;">
 			  <td style="height: 15px;background-color: #346977" colspan="32">
-				
+				<div style="width: 100%; height: 15px; display: flex;flex-direction: row; justify-content: center; color: white">
+				<span>
+				    Month
+				</span>
+				</div>
 			  </td>
 		    </tr>
 		    <tr style="position: sticky; top: 18px; background: white; ">

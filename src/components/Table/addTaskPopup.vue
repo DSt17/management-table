@@ -135,7 +135,7 @@ export default {
     color: white;
     padding: 2px;
     position: fixed;
-    top: 135px;
+    top: 137px;
     left: 179px;
     width: 205px;
     height: 260px;
