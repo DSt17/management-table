@@ -21,20 +21,23 @@
 	  </div>
 	  <div class="scrollTableBody">
 		<table id="table">
-		    <tr style="position: sticky; top: 0; background: white;">
-			  <td style="height: 15px;background-color: #346977" colspan="32">
-				<div style="width: 100%; height: 15px; display: flex;flex-direction: row; justify-content: center; color: white">
+		    <tr style="position: sticky; top: 0; background: white; z-index: 2">
+			  <td class="monthRowHeader" :colspan="colspan() + 1">
+				<div class="monthRowValue">
 				<span>
-				    Month
+				    {{
+					  rangeDay.length > 0 ? months[new Date(rangeDay[1]).getMonth()] :
+						  months[new Date(dayInAMonths[1]).getMonth()]
+				    }}
 				</span>
 				</div>
 			  </td>
 		    </tr>
-		    <tr style="position: sticky; top: 18px; background: white; ">
-			  <td style="max-width: 150px;">
+		    <tr style="position: sticky; top: 18px; background: white; z-index: 2 ">
+			  <td style="position: sticky; left: 0; background-color: white; ">
 				<div style="display: flex; flex-direction: row; justify-content: space-around">
 				    <div style="border-right: 1px solid black;width: 50%">Name</div>
-				    <div>Client</div>
+				    <div style="width:50%">Client</div>
 				</div>
 			  </td>
 			  <td
@@ -90,6 +93,7 @@ export default {
 		dayInAMonths: [
 		    "10/1/2022", "10/2/2022", "10/3/2022", "10/4/2022", "10/5/2022", "10/6/2022", "10/7/2022", "10/8/2022", "10/9/2022", "10/10/2022", "10/11/2022", "10/12/2022", "10/13/2022", "10/14/2022", "10/15/2022", "10/16/2022", "10/17/2022", "10/18/2022", "10/19/2022", "10/20/2022", "10/21/2022", "10/22/2022", "10/23/2022", "10/24/2022", "10/25/2022", "10/26/2022", "10/27/2022", "10/28/2022", "10/29/2022", "10/30/2022", "10/31/2022"
 		],
+		months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
 		rangeDay: [],
 		cLickedCalendar: false,
 		state: [
@@ -327,6 +331,13 @@ export default {
 	  closeAddTaskPopup() {
 		this.addTaskPopupVisible = false
 	  },
+	  colspan() {
+		if (this.rangeDay.length > 0) {
+		    return this.rangeDay.length
+		} else {
+		    return this.dayInAMonths.length
+		}
+	  },
 	  
 	  //------need to fix with Dmitry-------------//
 	  changeFilteredValue(value) {
@@ -350,6 +361,19 @@ export default {
 
 
 <style>
+.monthRowHeader {
+    height: 15px;
+    background-color: #346977
+}
+
+.monthRowValue {
+    width: 100%;
+    height: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    color: white
+}
 
 .scrollTableBody {
     height: 350px;
@@ -385,9 +409,10 @@ export default {
 
 td {
     width: 26px;
+    min-width: 10px;
     height: 25px;
     min-height: 10px;
-    min-width: 10px;
+    
 }
 
 .scrollFooterBox {

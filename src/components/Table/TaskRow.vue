@@ -1,6 +1,6 @@
 <template>
     <tr>
-	  <td style="max-width: 150px; font-size: 10px;">
+	  <td style=" font-size: 10px; position: sticky; left: 0; background-color: white; width: 150px;">
 		{{ item.task }} ({{ item.customer }})
 	  </td>
 	  <td v-for="(day,idx) in arrayForRendering()"

@@ -1,9 +1,9 @@
 <template>
     <tbody>
     <tr>
-	  <td class="user-box-header">
-		<div style="display: flex; flex-direction: row; justify-content:space-between;align-items: center">
-		    <div style="width: 125px">
+	  <td class="user-box">
+		<div class="user-box-header">
+		    <div style="width: 100%;">
 			  {{ item.title }}
 		    </div>
 		    <div>
@@ -60,12 +60,21 @@ td {
     border-top: none;
 }
 
-.user-box-header {
+.user-box {
     min-width: 150px;
     max-width: 150px;
     font-size: 13px;
     font-weight: bold;
     background-color: #346977;
     color: white;
+    position: sticky;
+    left: 0
+}
+
+.user-box-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center
 }
 </style>

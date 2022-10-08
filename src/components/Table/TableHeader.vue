@@ -41,7 +41,7 @@
 		    <div class="sort-button"
 			   @click="sortedByName">
 			  <span>sort </span>
-			  <i style="font-size: 20px" class="material-icons">sort_by_alpha</i>
+			  <i class="material-icons">sort_by_alpha</i>
 		    </div>
 		    <div class="filter-button">
 			  <vSelect
@@ -49,21 +49,21 @@
 				  @select="optionSelect"
 				  :selected="selected"
 			  />
-			  <i style="font-size: 20px;color:white" class="material-icons">filter_alt</i>
+			  <i class="material-icons">filter_alt</i>
 		    </div>
 		    <div class="add-button"
 			   @click="showPopupInfo"
 		    >
 			  <span>Add new task </span>
-			  <i style="color: white; font-size: 20px" class="material-icons">person_add</i>
+			  <i class="material-icons">person_add</i>
 		    </div>
 		    
-		    <div class="month-button" style="color: white">
+		    <div class="month-button-box" style="color: white">
 			  <span @click="prevMonth"><<</span>
-			  <div style="display: flex; flex-direction: row; width: 120px; justify-content: space-between; align-items: center">
+			  <div class="month-button-value">
 				<div v-if="clickedCalendar === false">{{ currentMonth }}</div>
-				<div v-if="clickedCalendar === true" style="font-size: 10px">{{ dayStart.replace(/-/g, '/') }} -
-				    {{ dayFinish.replace(/-/g, '/') }}
+				<div v-if="clickedCalendar === true" style="font-size: 10px">
+				    {{ dayStart.replace(/-/g, '/') }} - {{ dayFinish.replace(/-/g, '/') }}
 				</div>
 				<div>
 				    <i @click="showCalendarPopupInfo"
@@ -239,7 +239,7 @@ td {
     cursor: pointer;
 }
 
-.month-button {
+.month-button-box {
     width: 220px;
     margin-left: 40px;
     display: flex;
@@ -247,8 +247,16 @@ td {
     align-items: center;
 }
 
-.month-button span {
+.month-button-box span {
     color: white;
+}
+
+.month-button-value {
+    display: flex;
+    flex-direction: row;
+    width: 120px;
+    justify-content: space-between;
+    align-items: center
 }
 
 span {
@@ -297,5 +305,11 @@ input[type="checkbox"]:before {
 
 input:checked[type="checkbox"]:before {
     left: 40px;
+}
+
+
+i {
+    color: white;
+    font-size: 20px
 }
 </style>
