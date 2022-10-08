@@ -119,7 +119,7 @@ export default {
     background: #346977;
     box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
     border: 1px solid white;
-    z-index: 1;
+    z-index: 3;
 }
 
 .popup_header {

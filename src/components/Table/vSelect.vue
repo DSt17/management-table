@@ -52,7 +52,7 @@ export default {
     cursor: pointer;
     color: white;
     background-color: #346977;
-    z-index: 1;
+    z-index: 3;
 }
 
 .v-select p {
