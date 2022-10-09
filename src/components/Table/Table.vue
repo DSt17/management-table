@@ -11,6 +11,7 @@
 			:selected="selected"
 			@AddNewUser="AddNewUser"
 			@AddNewTask="AddNewTask"
+			@AddNewTaskInCompany="AddNewTaskInCompany"
 			@sortedByName="sortedByName"
 			@optionSelect="optionSelect"
 			@filteredValue="changeFilteredValue"
@@ -293,7 +294,6 @@ export default {
 	  
 	  filteredState() {
 		if (this.toggleCheckedValue === false) {
-		    debugger
 		    if (this.selected === 'All') {
 			  return this.state
 		    }
@@ -324,9 +324,13 @@ export default {
 	  AddNewUser(newUser) {
 		this.state.unshift(newUser)
 	  },
-	  AddNewTask(NewTask, UserId) {
-		let findedUser = this.state.find(el => el.id === UserId)
-		findedUser.projects.push(NewTask)
+	  AddNewTask(newTask, userId) {
+		let findedUser = this.state.find(el => el.id === userId)
+		findedUser.projects.push(newTask)
+	  },
+	  AddNewTaskInCompany(newTask, CompanyTitle){
+		let findedCompany = this.stateCompany.find(el => el.title === CompanyTitle)
+		findedCompany.projects.push(newTask)
 	  },
 	  rangeDayArray(rangeDayArray) {
 		this.rangeDay = rangeDayArray
@@ -363,6 +367,7 @@ export default {
 	  toggleChecked(value) {
 		this.toggleCheckedValue = value
 		if (value === true) {
+		    this.stateCompany = []
 		    for (let i = 0; i < this.customers.length; i++) {
 			  let newObj = {
 				id: new Date().getTime(),

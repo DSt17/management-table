@@ -14,9 +14,15 @@
 		  @clickedCalendarMonths="setClickedCalendarMonths"
 	  />
 	  <addTaskPopup
-		  v-if="taskPopupVisible"
+		  v-if=" !toggleChecked && taskPopupVisible"
 		  @closeAddTaskPopup="closeAddTaskPopup"
 		  @AddNewTask="AddNewTask"
+		  :item="item"
+	  />
+	  <addTaskFromCompanyPopup
+		  v-if="toggleChecked && taskPopupVisible"
+		  @closeAddTaskPopup="closeAddTaskPopup"
+		  @AddNewTaskInCompany="AddNewTaskInCompany"
 		  :item="item"
 	  />
 	  
@@ -86,6 +92,7 @@ import vSelect from '@/components/Table/vSelect'
 import addUserFormPopup from '@/components/Table/addUserFormPopup'
 import CalendarPopup from '@/components/Table/CalendarPopup'
 import addTaskPopup from '@/components/Table/addTaskPopup'
+import addTaskFromCompanyPopup from '@/components/Table/addTaskFromCompanyPopup'
 
 export default {
     name: "TableHeader",
@@ -122,8 +129,11 @@ export default {
 	  AddNewUser(newUser) {
 		this.$emit('AddNewUser', newUser)
 	  },
-	  AddNewTask(newTask, UserId) {
-		this.$emit('AddNewTask', newTask, UserId)
+	  AddNewTask(newTask, userId) {
+		this.$emit('AddNewTask', newTask, userId)
+	  },
+	  AddNewTaskInCompany(newTask, CompanyTitle) {
+		this.$emit('AddNewTaskInCompany', newTask, CompanyTitle)
 	  },
 	  showCalendarPopupInfo() {
 		this.isCalendarPopupVisible = true
@@ -187,7 +197,7 @@ export default {
 		this.$emit('toggleChecked', this.toggleChecked)
 	  }
     },
-    components: {vSelect, addUserFormPopup, CalendarPopup, addTaskPopup}
+    components: {vSelect, addUserFormPopup, CalendarPopup, addTaskPopup, addTaskFromCompanyPopup}
 }
 </script>
 

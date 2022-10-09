@@ -24,19 +24,19 @@
 				    <div>
 					  <span>Task:</span>
 					  <input type="text"
-						   v-model="taskTitle"
+						   v-model="employeeName"
 						   placeholder="new task title.."
 						   title="value must be a string!"
 						   pattern="^[a-zA-Z\s]+$"
 					  >
 				    </div>
 				    <div>
-					  <span>Customer:</span>
-					  <select v-model="selectedCustomer">
-						<option v-for="(customer,idx) in customers"
+					  <span>Employee:</span>
+					  <select v-model="selectedEmployee">
+						<option v-for="(employee,idx) in employee"
 							  :key="idx"
 						>
-						    {{ customer }}
+						    {{ employee }}
 						</option>
 					  </select>
 				    </div>
@@ -73,18 +73,17 @@
 	  </div>
     </div>
 </template>
-
 <script>
 export default {
-    name: "addTaskPopup",
+    name: "addTaskFromCompanyPopup",
     props: ["item"],
     data() {
 	  return {
-		taskTitle: '',
-		selectedCustomer: '',
+		employeeName: '',
+		selectedEmployee: '',
 		dayStart: '',
 		dayFinish: '',
-		customers: ['FuryLion', 'Google', 'IBM', 'Microsoft', 'Yandex']
+		employee: ["Katrin Flanders", "Jon Smith", "Jet Li ", "Katya Bloom", "Chack Jones","Pavel Poddubniy","Poul Blond","Jeck Loony ","Elizavetta Cruz"]
 	  }
     },
     methods: {
@@ -92,18 +91,18 @@ export default {
 		this.$emit('closeAddTaskPopup')
 	  },
 	  onSubmit() {
-		if (this.taskTitle.trim() !== '' && this.selectedCustomer.trim() !== ''
+		if (this.employeeName.trim() !== '' && this.selectedEmployee.trim() !== ''
 			&& this.dayStart.trim() !== '' && this.dayFinish.trim() !== '') {
 		    const newTask = {
-			  task: this.taskTitle,
-			  customer: this.selectedCustomer,
+			  task: this.employeeName,
+			  customer: this.selectedEmployee,
 			  workingTimeHours: 5,
 			  dayStart: this.dayStart.replace(/-/g, '/'),
 			  dayFinish: this.dayFinish.replace(/-/g, '/')
 		    }
-		    this.$emit('AddNewTask', newTask, this.item.id)
-		    this.selectedCustomer = ''
-		    this.taskTitle = ''
+		    this.$emit('AddNewTaskInCompany', newTask, this.item.title)
+		    this.selectedEmployee = ''
+		    this.employeeName = ''
 		}
 	  },
 	  
@@ -118,8 +117,8 @@ export default {
     },
     computed: {
 	  isDisabled() {
-		return this.taskTitle.trim() !== '' && !Number(this.taskTitle)
-		&& this.selectedCustomer.trim() !== '' && this.dayStart.trim() !== ''
+		return this.employeeName.trim() !== '' && !Number(this.employeeName)
+		&& this.selectedEmployee.trim() !== '' && this.dayStart.trim() !== ''
 		&& this.dayFinish.trim() !== '' && new Date(this.dayStart).getDay() !== 6
 		&& new Date(this.dayStart).getDay() !== 0 && new Date(this.dayFinish).getDay() !== 6
 		&& new Date(this.dayFinish).getDay() !== 0 ? false : true;
