@@ -3,6 +3,7 @@
 	  
 	  
 	  <div class="table-header">
+		
 		<TableHeader
 			:item="item"
 			:taskPopupVisible="addTaskPopupVisible"
@@ -16,6 +17,7 @@
 			@rangeDayArray="rangeDayArray"
 			@clickedCalendarValue="setCLickedCalendar"
 			@closeAddTaskPopup="closeAddTaskPopup"
+			@toggleChecked="toggleChecked"
 		/>
 	  
 	  </div>
@@ -271,7 +273,10 @@ export default {
 		],
 		maxTableSize: 50,
 		addTaskPopupVisible: false,
-		item: {}
+		item: {},
+		customers: ['FuryLion', 'Google', 'IBM', 'Microsoft', 'Yandex'],
+		stateCompany: [],
+		toggleCheckedValue: false
 	  }
     },
     methods: {
@@ -284,17 +289,34 @@ export default {
 		    this.sortClicked = !this.sortClicked
 		}
 	  },
+	  
+	  
 	  filteredState() {
-		if (this.selected === 'All') {
-		    return this.state
-		}
-		if (this.selected === 'in Process') {
-		    return this.state.filter(el => el.status === 'in Process')
-		}
-		if (this.selected === 'Free') {
-		    return this.state.filter(el => el.status === 'Free')
+		if (this.toggleCheckedValue === false) {
+		    debugger
+		    if (this.selected === 'All') {
+			  return this.state
+		    }
+		    if (this.selected === 'in Process') {
+			  return this.state.filter(el => el.status === 'in Process')
+		    }
+		    if (this.selected === 'Free') {
+			  return this.state.filter(el => el.status === 'Free')
+		    }
+		} else {
+		    if (this.selected === 'All') {
+			  return this.stateCompany
+		    }
+		    if (this.selected === 'in Process') {
+			  return this.stateCompany.filter(el => el.status === 'in Process')
+		    }
+		    if (this.selected === 'Free') {
+			  return this.stateCompany.filter(el => el.status === 'Free')
+		    }
 		}
 	  },
+	  
+	  
 	  optionSelect(option) {
 		console.log(option)
 		this.selected = option.name
@@ -338,6 +360,34 @@ export default {
 		    return this.dayInAMonths.length
 		}
 	  },
+	  toggleChecked(value) {
+		this.toggleCheckedValue = value
+		if (value === true) {
+		    for (let i = 0; i < this.customers.length; i++) {
+			  let newObj = {
+				id: new Date().getTime(),
+				title: this.customers[i],
+				status: 'in Process',
+				projects: []
+			  }
+			  let customerProjects = this.state.map((el) => {
+				return {...el, projects: el.projects.filter(el => el.customer === newObj.title)}
+			  })
+			  let tasksArray = customerProjects.map(user => user.projects.map(task => {
+				return {...task, customer: user.title}
+			  }))
+			  for (let j = 0; j < tasksArray.length; j++) {
+				if (tasksArray[j].length > 0) {
+				    newObj.projects.push(...tasksArray[j])
+				}
+			  }
+			  if (newObj.projects.length > 0) {
+				this.stateCompany.push(newObj)
+			  }
+		    }
+		}
+	  },
+	  
 	  
 	  //------need to fix with Dmitry-------------//
 	  changeFilteredValue(value) {
@@ -352,9 +402,12 @@ export default {
 		    return newState
 		}
 	  }
-    },
+    }
+    ,
     
-    components: {TableDateRow, TableHeader, vSelect}
+    components: {
+	  TableDateRow, TableHeader, vSelect
+    }
 }
 
 </script>

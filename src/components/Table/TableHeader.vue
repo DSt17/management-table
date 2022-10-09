@@ -34,7 +34,9 @@
 		    <div class="switchBox">
 			  <span @click="changeToggleFalse">Employee</span>
 			  <div style=" display: flex; align-items: center;">
-				<input id="switchBoxToggle" type="checkbox">
+				<input id="switchBoxToggle" type="checkbox"
+					 v-model="toggleChecked"
+				>
 			  </div>
 			  <span @click="changeToggleTrue">Company</span>
 		    </div>
@@ -94,6 +96,7 @@ export default {
 		isInfoPopupVisible: false,
 		isCalendarPopupVisible: false,
 		clickedCalendar: false,
+		toggleChecked: '',
 		filteredValue: '',
 		rangeDayArray: [],
 		dayStart: '',
@@ -168,16 +171,20 @@ export default {
 		this.$emit('clickedCalendarValue', this.clickedCalendar)
 	  },
 	  changeToggleFalse() {
-		document.getElementById('switchBoxToggle').checked = false
-		
+		this.toggleChecked = false
+		this.$emit('toggleChecked', this.toggleChecked)
 	  },
 	  changeToggleTrue() {
-		document.getElementById('switchBoxToggle').checked = true
+		this.toggleChecked = true
+		this.$emit('toggleChecked', this.toggleChecked)
 	  }
     },
     watch: {
 	  filteredValue(filteredValue) {
 		this.$emit('filteredValue', filteredValue)
+	  },
+	  toggleChecked() {
+		this.$emit('toggleChecked', this.toggleChecked)
 	  }
     },
     components: {vSelect, addUserFormPopup, CalendarPopup, addTaskPopup}
