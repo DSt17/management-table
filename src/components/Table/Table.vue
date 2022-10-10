@@ -47,7 +47,7 @@
 				  v-for="(day,idx) in arrayForRendering()"
 				  :key="idx"
 				  :class="new Date(day).getDay() === 6 || new Date(day).getDay() === 0 ? 'weekendDay' : '' "
-			  ><span style="font-size: 12px; font-weight: bold">{{ new Date(day).getDate() }}</span>
+			  ><span style="font-size: 12px; font-weight: bold;">{{ new Date(day).getDate() }}</span>
 			  </td>
 		    </tr>
 		    
@@ -283,10 +283,10 @@ export default {
     methods: {
 	  sortedByName() {
 		if (this.sortClicked) {
-		    this.state.sort((a, b) => a.title > b.title ? 1 : -1)
+		    this.filteredState().sort((a, b) => a.title > b.title ? 1 : -1)
 		    this.sortClicked = !this.sortClicked
 		} else {
-		    this.state.sort((a, b) => a.title > b.title ? -1 : 1)
+		    this.filteredState().sort((a, b) => a.title > b.title ? -1 : 1)
 		    this.sortClicked = !this.sortClicked
 		}
 	  },
@@ -397,11 +397,14 @@ export default {
 	  //------need to fix with Dmitry-------------//
 	  changeFilteredValue(value) {
 		if (value === undefined) {
+		    debugger
 		    return this.filteredState()
 		}
 		if (value.trim() === '') {
+		    debugger
 		    return this.filteredState()
 		} else {
+		    debugger
 		    const newState = this.filteredState().filter(el => el.title.toUpperCase().indexOf(value.toUpperCase()) > -1)
 		    console.log(newState)
 		    return newState
@@ -466,7 +469,7 @@ export default {
 }
 
 td {
-    width: 26px;
+   width: 26px;
     min-width: 10px;
     height: 25px;
     min-height: 10px;
