@@ -1,9 +1,8 @@
 <template>
+    
+    
     <div class="table-box">
-	  
-	  
 	  <div class="table-header">
-		
 		<TableHeader
 			:item="item"
 			:taskPopupVisible="addTaskPopupVisible"
@@ -52,7 +51,7 @@
 		    </tr>
 		    
 		    <TableDateRow
-			    v-for="(item,idx) in changeFilteredValue()"
+			    v-for="(item,idx) in filteredList"
 			    :key="idx"
 			    :item="item"
 			    :dayInAMonths="dayInAMonths"
@@ -277,7 +276,8 @@ export default {
 		item: {},
 		customers: ['FuryLion', 'Google', 'IBM', 'Microsoft', 'Yandex'],
 		stateCompany: [],
-		toggleCheckedValue: false
+		toggleCheckedValue: false,
+		filterInputValue: ''
 	  }
     },
     methods: {
@@ -290,8 +290,6 @@ export default {
 		    this.sortClicked = !this.sortClicked
 		}
 	  },
-	  
-	  
 	  filteredState() {
 		if (this.toggleCheckedValue === false) {
 		    if (this.selected === 'All') {
@@ -315,8 +313,6 @@ export default {
 		    }
 		}
 	  },
-	  
-	  
 	  optionSelect(option) {
 		console.log(option)
 		this.selected = option.name
@@ -328,7 +324,7 @@ export default {
 		let findedUser = this.state.find(el => el.id === userId)
 		findedUser.projects.push(newTask)
 	  },
-	  AddNewTaskInCompany(newTask, CompanyTitle){
+	  AddNewTaskInCompany(newTask, CompanyTitle) {
 		let findedCompany = this.stateCompany.find(el => el.title === CompanyTitle)
 		findedCompany.projects.push(newTask)
 	  },
@@ -349,6 +345,11 @@ export default {
 	  changeTableSize() {
 		let table = document.getElementById('table')
 		table.width = 51500 / this.maxTableSize
+		if (table.width < 1030) {
+		    table.width = 1030
+		}
+		
+		
 	  },
 	  showAddTaskPopup(item) {
 		this.addTaskPopupVisible = true
@@ -392,26 +393,19 @@ export default {
 		    }
 		}
 	  },
-	  
-	  
-	  //------need to fix with Dmitry-------------//
 	  changeFilteredValue(value) {
-		if (value === undefined) {
-		    debugger
-		    return this.filteredState()
-		}
-		if (value.trim() === '') {
-		    debugger
-		    return this.filteredState()
-		} else {
-		    debugger
-		    const newState = this.filteredState().filter(el => el.title.toUpperCase().indexOf(value.toUpperCase()) > -1)
-		    console.log(newState)
-		    return newState
-		}
+		this.filterInputValue = value
 	  }
-    }
-    ,
+    },
+    computed: {
+	  filteredList: function () {
+		let InputValue = this.filterInputValue.toUpperCase()
+		return this.filteredState().filter(function (elem) {
+		    if (InputValue === '') return true;
+		    else return elem.title.indexOf(InputValue) > -1;
+		})
+	  }
+    },
     
     components: {
 	  TableDateRow, TableHeader, vSelect
@@ -469,7 +463,7 @@ export default {
 }
 
 td {
-   width: 26px;
+    width: 26px;
     min-width: 10px;
     height: 25px;
     min-height: 10px;
