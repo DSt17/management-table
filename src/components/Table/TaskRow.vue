@@ -4,7 +4,6 @@
 		{{ item.task }} ({{ item.customer }})
 	  </td>
 	  <td v-for="(day,idx) in arrayForRendering()"
-		@click="changeSelect($event)"
 		:key="idx"
 		:class="workAndWeekendClass(day)">
 		<span style="font-size: 10px">
