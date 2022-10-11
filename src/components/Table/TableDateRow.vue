@@ -1,7 +1,7 @@
 <template>
     <tbody>
     <tr>
-	  <td class="user-box">
+	  <td class="user-box" :class="!toggleCheckedValue ? 'employeeBackgroundColor' : '' ">
 		<div class="user-box-header">
 		    <div style="width: 100%;">
 			  {{ item.title }}
@@ -31,7 +31,7 @@
 import TasksRow from '@/components/Table/TaskRow'
 
 export default {
-    props: ["item", "dayInAMonths", "rangeDayArray", "clickedCalendarValue"],
+    props: ["item", "dayInAMonths", "rangeDayArray", "clickedCalendarValue","toggleCheckedValue"],
     data() {
 	  return {
 		clicked: false,
@@ -76,5 +76,8 @@ td {
     flex-direction: row;
     justify-content: space-between;
     align-items: center
+}
+.employeeBackgroundColor{
+    background-color: #666060
 }
 </style>

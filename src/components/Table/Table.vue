@@ -36,8 +36,14 @@
 		    <tr style="position: sticky; top: 18px; background: white; z-index: 2 ">
 			  <td style="position: sticky; left: 0; background-color: white; ">
 				<div style="display: flex; flex-direction: row; justify-content: space-around">
-				    <div style="border-right: 1px solid black;width: 50%">Name</div>
-				    <div style="width:50%">Client</div>
+				    <div style="border-right: 1px solid black;width: 50%">
+					  <span v-if="toggleCheckedValue">Client</span>
+					  <span v-if="!toggleCheckedValue">People</span></div>
+				    <div style="width:50%">
+					  <span v-if="toggleCheckedValue">People</span>
+					  <span v-if="!toggleCheckedValue">Client</span>
+				    
+				    </div>
 				</div>
 			  </td>
 			  <td
@@ -55,6 +61,7 @@
 			    :dayInAMonths="dayInAMonths"
 			    :rangeDayArray="rangeDay"
 			    :clickedCalendarValue="cLickedCalendar"
+			    :toggleCheckedValue="toggleCheckedValue"
 			    @showAddTaskPopup="showAddTaskPopup"
 		    />
 		</table>
