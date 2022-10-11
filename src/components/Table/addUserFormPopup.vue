@@ -22,13 +22,20 @@
 				<div class="formBody">
 				    <div>
 					  <span>Name:</span>
-					  <input class="myValidate"
-						   type="text"
-						   v-model="newUserName"
-						   placeholder="person name.."
+					  <input type="text"
+						   id="checkedInput"
+						   @change="checkInput"
+						   list="employmentsArray"
+						   placeholder="select or create employee.."
 						   title="value must be a string!"
 						   pattern="^[a-zA-Z\s]+$"
+						   autocomplete="off"
 					  >
+					  <datalist id="employmentsArray">
+						
+						<option v-for="employee in employees">{{ employee }}</option>
+					  </datalist>
+				    
 				    </div>
 				    <div>
 					  <span>Task:</span>
@@ -94,10 +101,15 @@ export default {
 		selectedCustomer: '',
 		dayStart: '',
 		dayFinish: '',
-		customers: ['FuryLion', 'Google', 'IBM', 'Microsoft', 'Yandex']
+		customers: ['FuryLion', 'Google', 'IBM', 'Microsoft', 'Yandex'],
+		employees: ["Katrin Flanders", "Jon Smith", "Jet Li ", "Katya Bloom", "Chack Jones", "Pavel Poddubniy", "Poul Blond", "Jeck Loony ", "Elizavetta Cruz", "Alex Flax", "Emma Boost", "Jeelly Parse ", "Nikita Blade", "Max Stove", "Dave Frol", "Sofia Broot"]
+		
 	  }
     },
     methods: {
+	  checkInput(event) {
+		this.newUserName = event.target.value
+	  },
 	  closePopup() {
 		this.$emit('closePopup')
 	  },
@@ -123,6 +135,9 @@ export default {
 		    this.newUserName = ''
 		    this.selectedCustomer = ''
 		    this.taskTitle = ''
+		    this.dayStart = ''
+		    this.dayFinish = ''
+		    document.getElementById('checkedInput').value = ''
 		}
 	  },
     },
@@ -149,6 +164,7 @@ export default {
 </script>
 
 <style scoped>
+
 
 .v_popup {
     color: white;
@@ -209,6 +225,10 @@ input:focus:invalid {
 input {
     outline: none;
     width: 150px;
+}
+
+::placeholder {
+    font-size: 10px;
 }
 
 .incorrectValue {

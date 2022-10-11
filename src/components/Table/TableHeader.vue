@@ -1,7 +1,7 @@
 <template>
     <div>
 	  <addUserFormPopup
-		  v-if="isInfoPopupVisible"
+		  v-if="!toggleChecked && isInfoPopupVisible"
 		  @closePopup="closePopup"
 		  @AddNewUser="AddNewUser"
 	  />
@@ -25,7 +25,11 @@
 		  @AddNewTaskInCompany="AddNewTaskInCompany"
 		  :item="item"
 	  />
-	  
+	  <addUserFormCompanyPopup
+		  v-if="toggleChecked && isInfoPopupVisible"
+		  @closePopup="closePopup"
+		  @AddNewUserInACompany="AddNewUserInACompany"
+	  />
 	  
 	  <div class="table-header-navbar-box">
 		<div class="header-navbar-navigation-box">
@@ -93,12 +97,12 @@ import addUserFormPopup from '@/components/Table/addUserFormPopup'
 import CalendarPopup from '@/components/Table/CalendarPopup'
 import addTaskPopup from '@/components/Table/addTaskPopup'
 import addTaskFromCompanyPopup from '@/components/Table/addTaskFromCompanyPopup'
+import addUserFormCompanyPopup from '@/components/Table/addUserFormCompanyPopup'
 
 export default {
     name: "TableHeader",
     props: ["options", "selected", "taskPopupVisible", "item"],
     data() {
-	  
 	  return {
 		isInfoPopupVisible: false,
 		isCalendarPopupVisible: false,
@@ -129,11 +133,14 @@ export default {
 	  AddNewUser(newUser) {
 		this.$emit('AddNewUser', newUser)
 	  },
+	  AddNewUserInACompany(newUserInAState, newUserFromCompany, selectedCustomer) {
+		this.$emit('AddNewUserInACompany', newUserInAState, newUserFromCompany, selectedCustomer)
+	  },
 	  AddNewTask(newTask, userId) {
 		this.$emit('AddNewTask', newTask, userId)
 	  },
-	  AddNewTaskInCompany(newTask, CompanyTitle) {
-		this.$emit('AddNewTaskInCompany', newTask, CompanyTitle)
+	  AddNewTaskInCompany(newUser, newTask) {
+		this.$emit('AddNewTaskInCompany', newUser, newTask)
 	  },
 	  showCalendarPopupInfo() {
 		this.isCalendarPopupVisible = true
@@ -197,7 +204,14 @@ export default {
 		this.$emit('toggleChecked', this.toggleChecked)
 	  }
     },
-    components: {vSelect, addUserFormPopup, CalendarPopup, addTaskPopup, addTaskFromCompanyPopup}
+    components: {
+	  vSelect,
+	  addUserFormPopup,
+	  CalendarPopup,
+	  addTaskPopup,
+	  addTaskFromCompanyPopup,
+	  addUserFormCompanyPopup
+    }
 }
 </script>
 
@@ -305,7 +319,6 @@ input[type="checkbox"] {
     box-shadow: inset 0 0 5px rgba(0, 0, 0, .2);
 }
 
-
 input[type="checkbox"]:before {
     content: '';
     position: absolute;
@@ -323,7 +336,6 @@ input[type="checkbox"]:before {
 input:checked[type="checkbox"]:before {
     left: 40px;
 }
-
 
 i {
     color: white;

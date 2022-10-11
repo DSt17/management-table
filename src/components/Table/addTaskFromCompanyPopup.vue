@@ -32,13 +32,20 @@
 				    </div>
 				    <div>
 					  <span>Employee:</span>
-					  <select v-model="selectedEmployee">
-						<option v-for="(employee,idx) in employee"
-							  :key="idx"
-						>
-						    {{ employee }}
-						</option>
-					  </select>
+					  <input type="text"
+						   id="checkedInput"
+						   @change="checkInput"
+						   list="employmentsArray"
+						   placeholder="select or create.."
+						   title="value must be a string!"
+						   pattern="^[a-zA-Z\s]+$"
+						   autocomplete="off"
+					  >
+					  <datalist id="employmentsArray">
+						
+						<option v-for="employee in employees">{{ employee }}</option>
+					  </datalist>
+				    
 				    </div>
 				    <div>
 					  <span>Day start:</span>
@@ -83,10 +90,13 @@ export default {
 		selectedEmployee: '',
 		dayStart: '',
 		dayFinish: '',
-		employee: ["Katrin Flanders", "Jon Smith", "Jet Li ", "Katya Bloom", "Chack Jones","Pavel Poddubniy","Poul Blond","Jeck Loony ","Elizavetta Cruz"]
+		employees: ["Katrin Flanders", "Jon Smith", "Jet Li ", "Katya Bloom", "Chack Jones", "Pavel Poddubniy", "Poul Blond", "Jeck Loony ", "Elizavetta Cruz"]
 	  }
     },
     methods: {
+	  checkInput(event) {
+		this.selectedEmployee = event.target.value
+	  },
 	  closeAddTaskPopup() {
 		this.$emit('closeAddTaskPopup')
 	  },
@@ -100,12 +110,29 @@ export default {
 			  dayStart: this.dayStart.replace(/-/g, '/'),
 			  dayFinish: this.dayFinish.replace(/-/g, '/')
 		    }
-		    this.$emit('AddNewTaskInCompany', newTask, this.item.title)
+		    const newUser = {
+			  id: new Date().getTime(),
+			  title: this.selectedEmployee,
+			  status: 'in Process',
+			  projects: [
+				{
+				    task: this.employeeName,
+				    customer: this.item.title,
+				    workingTimeHours: 5,
+				    dayStart: this.dayStart.replace(/-/g, '/'),
+				    dayFinish: this.dayFinish.replace(/-/g, '/')
+				},
+			  ]
+		    }
+		    
+		    this.$emit('AddNewTaskInCompany', newUser, newTask)
 		    this.selectedEmployee = ''
 		    this.employeeName = ''
+		    this.dayStart = ''
+		    this.dayFinish = ''
+		    document.getElementById('checkedInput').value = ''
 		}
 	  },
-	  
     },
     mounted() {
 	  let vm = this;
@@ -124,7 +151,6 @@ export default {
 		&& new Date(this.dayFinish).getDay() !== 0 ? false : true;
 	  },
     }
-    
 }
 </script>
 
@@ -191,5 +217,9 @@ input {
 
 .incorrectValue {
     border: 2px solid red;
+}
+
+::placeholder {
+    font-size: 10px;
 }
 </style>

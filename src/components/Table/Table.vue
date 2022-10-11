@@ -1,6 +1,4 @@
 <template>
-    
-    
     <div class="table-box">
 	  <div class="table-header">
 		<TableHeader
@@ -18,8 +16,8 @@
 			@clickedCalendarValue="setCLickedCalendar"
 			@closeAddTaskPopup="closeAddTaskPopup"
 			@toggleChecked="toggleChecked"
+			@AddNewUserInACompany="AddNewUserInACompany"
 		/>
-	  
 	  </div>
 	  <div class="scrollTableBody">
 		<table id="table">
@@ -71,8 +69,6 @@
 		>
 	  </div>
     </div>
-
-
 </template>
 
 
@@ -318,15 +314,37 @@ export default {
 		this.selected = option.name
 	  },
 	  AddNewUser(newUser) {
-		this.state.unshift(newUser)
+		let findedUser = this.state.find(el => el.title === newUser.title)
+		if (findedUser) {
+		    findedUser.projects.push(...newUser.projects)
+		} else this.state.unshift(newUser)
+	  },
+	  AddNewUserInACompany(newUserInAState, newUserFromCompany, selectedCustomer) {
+		let findedCompany = this.stateCompany.find(el => el.title === selectedCustomer)
+		findedCompany.projects.push(newUserFromCompany)
+		debugger
+		let findedUser = this.state.find(el => el.title === newUserInAState.title)
+		debugger
+		if (findedUser) {
+		    findedUser.projects.push(...newUserInAState.projects)
+		} else {
+		    this.state.push(newUserInAState)
+		}
 	  },
 	  AddNewTask(newTask, userId) {
 		let findedUser = this.state.find(el => el.id === userId)
+		debugger
 		findedUser.projects.push(newTask)
 	  },
-	  AddNewTaskInCompany(newTask, CompanyTitle) {
-		let findedCompany = this.stateCompany.find(el => el.title === CompanyTitle)
+	  AddNewTaskInCompany(newUser, newTask) {
+		let findedCompany = this.stateCompany.find(el => el.title === newUser.projects[0].customer)
 		findedCompany.projects.push(newTask)
+		let findedUser = this.state.find(el => el.title === newUser.title)
+		if (findedUser) {
+		    findedUser.projects.push(...newUser.projects)
+		} else {
+		    this.state.push(newUser)
+		}
 	  },
 	  rangeDayArray(rangeDayArray) {
 		this.rangeDay = rangeDayArray
@@ -348,8 +366,6 @@ export default {
 		if (table.width < 1030) {
 		    table.width = 1030
 		}
-		
-		
 	  },
 	  showAddTaskPopup(item) {
 		this.addTaskPopupVisible = true
@@ -406,7 +422,6 @@ export default {
 		})
 	  }
     },
-    
     components: {
 	  TableDateRow, TableHeader, vSelect
     }
@@ -467,7 +482,6 @@ td {
     min-width: 10px;
     height: 25px;
     min-height: 10px;
-    
 }
 
 .scrollFooterBox {

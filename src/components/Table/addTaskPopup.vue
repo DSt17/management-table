@@ -43,6 +43,7 @@
 				    <div>
 					  <span>Day start:</span>
 					  <input
+						  id="dayStart"
 						  :class="new Date(this.dayStart).getDay() === 6 ||
 					     new Date(this.dayStart).getDay() === 0  ? 'incorrectValue' : '' "
 						  type="date"
@@ -52,6 +53,7 @@
 				    <div>
 					  <span>Day finish:</span>
 					  <input
+						  id="dayFinish"
 						  :class="new Date(this.dayFinish).getDay() === 6 ||
 					     new Date(this.dayFinish).getDay() === 0 ? 'incorrectValue' : '' "
 						  type="date"
@@ -102,11 +104,13 @@ export default {
 			  dayFinish: this.dayFinish.replace(/-/g, '/')
 		    }
 		    this.$emit('AddNewTask', newTask, this.item.id)
+		    document.getElementById('dayStart').value = ''
 		    this.selectedCustomer = ''
 		    this.taskTitle = ''
+		    this.dayStart = ''
+		    this.dayFinish = ''
 		}
 	  },
-	  
     },
     mounted() {
 	  let vm = this;
@@ -125,7 +129,6 @@ export default {
 		&& new Date(this.dayFinish).getDay() !== 0 ? false : true;
 	  },
     }
-    
 }
 </script>
 
@@ -192,5 +195,8 @@ input {
 
 .incorrectValue {
     border: 2px solid red;
+}
+::placeholder {
+    font-size: 10px;
 }
 </style>

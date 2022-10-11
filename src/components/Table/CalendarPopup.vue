@@ -7,7 +7,6 @@
 			  <i style="font-size: 18px" class="material-icons" v-on:click="closeCalendarPopup">cancel</i>
 		    </span>
 		</div>
-		
 		<div class="calendar_popup_content">
 		    <form v-on:submit.prevent="onSubmit">
 			  <div style="display: flex; flex-direction: column">
