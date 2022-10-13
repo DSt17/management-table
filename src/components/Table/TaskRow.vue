@@ -1,13 +1,22 @@
 <template>
+    
+    
     <tr>
 	  <td style=" font-size: 10px; position: sticky; left: 0; background-color: white; width: 150px;">
 		{{ item.task }} ({{ item.customer }})
 	  </td>
 	  <td v-for="(day,idx) in arrayForRendering()"
+		:data-key="day"
 		:key="idx"
-		:class="workAndWeekendClass(day)">
+		@mousedown="select"
+		@mouseover="select"
+		@mouseup="openPopup"
+		:class="selected.includes(key(day)) === true ?  'selected' : workAndWeekendClass(day)"
+	  
+	  >
 		<span style="font-size: 10px">
 		    {{
+			  
 			  idx + 1 === new Date(item.dayStart).getDate() ? item.workingTimeHours : ''
 		    }}
 		</span>
@@ -16,10 +25,40 @@
 </template>
 
 <script>
+
 export default {
     name: "TaskRow",
-    props: ["item", "dayInAMonths", "rangeDayArray", "clickedCalendar"],
+    props: ["item", "dayInAMonths", "rangeDayArray", "clickedCalendar", "toggleCheckedValue"],
+    data: () => ({
+	  selected: [],
+	  addTaskCalendarPopupVisible: false,
+	  toggleChecked:''
+    }),
     methods: {
+	  key: (day) => `${day}`,
+	  select({buttons, target: {dataset: {key}}}) {
+		if (buttons) {
+		    const index = this.selected.indexOf(key);
+		    if (index !== -1) {
+			  this.selected.splice(index, 1);
+		    } else {
+			  this.selected.push(key);
+		    }
+		    console.log(this.selected)
+		}
+	  },
+	  openPopup() {
+		this.toggleChecked = this.toggleCheckedValue
+		    if (this.selected[this.selected.length - 1]) {
+			  this.addTaskCalendarPopupVisible = true
+			  if (!this.toggleChecked) {
+				this.$emit('showAddTaskCalendarPopupVisible', this.selected,this.item.customer)
+			  }
+			  this.selected = []
+		    }
+	  },
+	  
+	  
 	  arrayForRendering() {
 		if (this.clickedCalendar === true) {
 		    return this.rangeDayArray
@@ -47,12 +86,18 @@ export default {
 			  new Date(day).getMonth() === new Date(this.item.dayFinish).getMonth() ? 'working-day-color' : ''
 		    }
 		}
-	  }
-    }
+		
+	  },
+	  
+    },
+    
 }
 </script>
 
 <style scoped>
+.selected {
+    background-color: #b774c7;
+}
 
 .working-day-color {
     background-color: #00d90087;

@@ -22,6 +22,8 @@
 	    :item="item"
 	    :rangeDayArray="rangeDayArray"
 	    :clickedCalendar="clickedCalendarValue"
+	    :toggleCheckedValue="toggleCheckedValue"
+	    @showAddTaskCalendarPopupVisible="showAddTaskCalendarPopupVisible"
     />
     </tbody>
 </template>
@@ -44,6 +46,9 @@ export default {
 		} else {
 		    return this.dayInAMonths
 		}
+	  },
+	  showAddTaskCalendarPopupVisible(ArraySelectedDays,customer){
+		this.$emit('showAddTaskCalendarPopupVisible',this.item, ArraySelectedDays,customer)
 	  },
 	  showAddTaskPopup() {
 		this.$emit('showAddTaskPopup', this.item)

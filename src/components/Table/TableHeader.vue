@@ -30,6 +30,15 @@
 		  @closePopup="closePopup"
 		  @AddNewUserInACompany="AddNewUserInACompany"
 	  />
+	  <addTaskCalendarPopup
+		  v-if="!toggleChecked && taskCalendarPopupVisible"
+		  @closeAddTaskCalendarPopup="closeAddTaskCalendarPopup"
+		  @AddNewTaskClickedCalendar="AddNewTaskClickedCalendar"
+		  :item="item"
+		  :customer="customer"
+		  :ArraySelectedDays="ArraySelectedDays"
+		  
+	  />
 	  
 	  <div class="table-header-navbar-box">
 		<div class="header-navbar-navigation-box">
@@ -98,14 +107,16 @@ import CalendarPopup from '@/components/Table/CalendarPopup'
 import addTaskPopup from '@/components/Table/addTaskPopup'
 import addTaskFromCompanyPopup from '@/components/Table/addTaskFromCompanyPopup'
 import addUserFormCompanyPopup from '@/components/Table/addUserFormCompanyPopup'
+import addTaskCalendarPopup from '@/components/Table/addTaskCalendarPopup'
 
 export default {
     name: "TableHeader",
-    props: ["options", "selected", "taskPopupVisible", "item"],
+    props: ["options", "selected", "taskPopupVisible", "item", "taskCalendarPopupVisible", "ArraySelectedDays","customer"],
     data() {
 	  return {
 		isInfoPopupVisible: false,
 		isCalendarPopupVisible: false,
+		addTaskCalendarPopupVisible: false,
 		clickedCalendar: false,
 		toggleChecked: '',
 		filteredValue: '',
@@ -130,6 +141,10 @@ export default {
 	  closePopup() {
 		this.isInfoPopupVisible = false
 	  },
+	  closeAddTaskCalendarPopup() {
+		this.addTaskCalendarPopupVisible = false
+		this.$emit('closeAddTaskCalendarPopup')
+	  },
 	  AddNewUser(newUser) {
 		this.$emit('AddNewUser', newUser)
 	  },
@@ -137,7 +152,12 @@ export default {
 		this.$emit('AddNewUserInACompany', newUserInAState, newUserFromCompany, selectedCustomer)
 	  },
 	  AddNewTask(newTask, userId) {
+		debugger
 		this.$emit('AddNewTask', newTask, userId)
+	  },
+	  AddNewTaskClickedCalendar(newTask, userId) {
+		debugger
+		this.$emit('AddNewTaskClickedCalendar', newTask, userId)
 	  },
 	  AddNewTaskInCompany(newUser, newTask) {
 		this.$emit('AddNewTaskInCompany', newUser, newTask)
@@ -210,7 +230,8 @@ export default {
 	  CalendarPopup,
 	  addTaskPopup,
 	  addTaskFromCompanyPopup,
-	  addUserFormCompanyPopup
+	  addUserFormCompanyPopup,
+	  addTaskCalendarPopup
     }
 }
 </script>

@@ -3,11 +3,15 @@
 	  <div class="table-header">
 		<TableHeader
 			:item="item"
+			:customer="customer"
+			:ArraySelectedDays="ArraySelectedDays"
 			:taskPopupVisible="addTaskPopupVisible"
+			:taskCalendarPopupVisible="addTaskCalendarPopupVisible"
 			:options="options"
 			:selected="selected"
 			@AddNewUser="AddNewUser"
 			@AddNewTask="AddNewTask"
+			@AddNewTaskClickedCalendar="AddNewTaskClickedCalendar"
 			@AddNewTaskInCompany="AddNewTaskInCompany"
 			@sortedByName="sortedByName"
 			@optionSelect="optionSelect"
@@ -15,6 +19,7 @@
 			@rangeDayArray="rangeDayArray"
 			@clickedCalendarValue="setCLickedCalendar"
 			@closeAddTaskPopup="closeAddTaskPopup"
+			@closeAddTaskCalendarPopup="closeAddTaskCalendarPopup"
 			@toggleChecked="toggleChecked"
 			@AddNewUserInACompany="AddNewUserInACompany"
 		/>
@@ -63,6 +68,7 @@
 			    :clickedCalendarValue="cLickedCalendar"
 			    :toggleCheckedValue="toggleCheckedValue"
 			    @showAddTaskPopup="showAddTaskPopup"
+			    @showAddTaskCalendarPopupVisible="showAddTaskCalendarPopupVisible"
 		    />
 		</table>
 	  </div>
@@ -276,11 +282,14 @@ export default {
 		],
 		maxTableSize: 50,
 		addTaskPopupVisible: false,
+		addTaskCalendarPopupVisible:false,
 		item: {},
 		customers: ['FuryLion', 'Google', 'IBM', 'Microsoft', 'Yandex'],
 		stateCompany: [],
 		toggleCheckedValue: false,
-		filterInputValue: ''
+		filterInputValue: '',
+		ArraySelectedDays:[],
+		customer:''
 	  }
     },
     methods: {
@@ -340,7 +349,11 @@ export default {
 	  },
 	  AddNewTask(newTask, userId) {
 		let findedUser = this.state.find(el => el.id === userId)
+		findedUser.projects.push(newTask)
+	  },
+	  AddNewTaskClickedCalendar(newTask, userId){
 		debugger
+		let findedUser = this.state.find(el => el.id === userId)
 		findedUser.projects.push(newTask)
 	  },
 	  AddNewTaskInCompany(newUser, newTask) {
@@ -378,8 +391,17 @@ export default {
 		this.addTaskPopupVisible = true
 		this.item = item
 	  },
+	  showAddTaskCalendarPopupVisible(item,ArraySelectedDays,customer){
+		this.addTaskCalendarPopupVisible = true
+		this.item = item
+		this.customer = customer
+		this.ArraySelectedDays = ArraySelectedDays
+	  },
 	  closeAddTaskPopup() {
 		this.addTaskPopupVisible = false
+	  },
+	  closeAddTaskCalendarPopup(){
+		this.addTaskCalendarPopupVisible = false
 	  },
 	  colspan() {
 		if (this.rangeDay.length > 0) {
