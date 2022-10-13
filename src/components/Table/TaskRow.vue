@@ -2,7 +2,9 @@
     
     
     <tr>
-	  <td style=" font-size: 10px; position: sticky; left: 0; background-color: white; width: 150px;">
+	  <td style=" font-size: 10px; position: sticky; left: 0; background-color: white; width: 150px; cursor: pointer"
+	  @click="openOnClickUnderTheHading"
+	  >
 		{{ item.task }} ({{ item.customer }})
 	  </td>
 	  <td v-for="(day,idx) in arrayForRendering()"
@@ -47,6 +49,12 @@ export default {
 		    console.log(this.selected)
 		}
 	  },
+	  openOnClickUnderTheHading(){
+		if (!this.toggleChecked) {
+		    debugger
+		    this.$emit('showAddTaskOnClickUnderTheHading',this.item.customer)
+		}
+		},
 	  openPopup() {
 		this.toggleChecked = this.toggleCheckedValue
 		    if (this.selected[this.selected.length - 1]) {

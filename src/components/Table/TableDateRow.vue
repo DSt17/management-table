@@ -24,6 +24,7 @@
 	    :clickedCalendar="clickedCalendarValue"
 	    :toggleCheckedValue="toggleCheckedValue"
 	    @showAddTaskCalendarPopupVisible="showAddTaskCalendarPopupVisible"
+	    @showAddTaskOnClickUnderTheHading ="showAddTaskOnClickUnderTheHading"
     />
     </tbody>
 </template>
@@ -49,6 +50,9 @@ export default {
 	  },
 	  showAddTaskCalendarPopupVisible(ArraySelectedDays,customer){
 		this.$emit('showAddTaskCalendarPopupVisible',this.item, ArraySelectedDays,customer)
+	  },
+	  showAddTaskOnClickUnderTheHading(ArraySelectedDays,customer){
+		this.$emit('showAddTaskOnClickUnderTheHading',this.item, ArraySelectedDays,customer)
 	  },
 	  showAddTaskPopup() {
 		this.$emit('showAddTaskPopup', this.item)

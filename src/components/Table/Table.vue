@@ -7,6 +7,7 @@
 			:ArraySelectedDays="ArraySelectedDays"
 			:taskPopupVisible="addTaskPopupVisible"
 			:taskCalendarPopupVisible="addTaskCalendarPopupVisible"
+			:addTaskCalendarPopupVisibleOnClickUnderTheHading="addTaskCalendarPopupVisibleOnClickUnderTheHading"
 			:options="options"
 			:selected="selected"
 			@AddNewUser="AddNewUser"
@@ -69,6 +70,7 @@
 			    :toggleCheckedValue="toggleCheckedValue"
 			    @showAddTaskPopup="showAddTaskPopup"
 			    @showAddTaskCalendarPopupVisible="showAddTaskCalendarPopupVisible"
+			    @showAddTaskOnClickUnderTheHading="showAddTaskOnClickUnderTheHading"
 		    />
 		</table>
 	  </div>
@@ -283,6 +285,7 @@ export default {
 		maxTableSize: 50,
 		addTaskPopupVisible: false,
 		addTaskCalendarPopupVisible:false,
+		addTaskCalendarPopupVisibleOnClickUnderTheHading:false,
 		item: {},
 		customers: ['FuryLion', 'Google', 'IBM', 'Microsoft', 'Yandex'],
 		stateCompany: [],
@@ -397,8 +400,14 @@ export default {
 		this.customer = customer
 		this.ArraySelectedDays = ArraySelectedDays
 	  },
+	  showAddTaskOnClickUnderTheHading(item,customer){
+		this.addTaskCalendarPopupVisibleOnClickUnderTheHading = true
+		this.item = item
+		this.customer = customer
+	  },
 	  closeAddTaskPopup() {
 		this.addTaskPopupVisible = false
+		this.addTaskCalendarPopupVisibleOnClickUnderTheHading = false
 	  },
 	  closeAddTaskCalendarPopup(){
 		this.addTaskCalendarPopupVisible = false

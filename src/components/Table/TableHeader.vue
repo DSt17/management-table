@@ -14,11 +14,13 @@
 		  @clickedCalendarMonths="setClickedCalendarMonths"
 	  />
 	  <addTaskPopup
-		  v-if=" !toggleChecked && taskPopupVisible"
+		  v-if=" !toggleChecked && taskPopupVisible && !addTaskCalendarPopupVisibleOnClickUnderTheHading"
 		  @closeAddTaskPopup="closeAddTaskPopup"
 		  @AddNewTask="AddNewTask"
 		  :item="item"
 	  />
+	 
+	  
 	  <addTaskFromCompanyPopup
 		  v-if="toggleChecked && taskPopupVisible"
 		  @closeAddTaskPopup="closeAddTaskPopup"
@@ -37,7 +39,13 @@
 		  :item="item"
 		  :customer="customer"
 		  :ArraySelectedDays="ArraySelectedDays"
-		  
+	  />
+	  <addTaskOnClickUnderTheHading
+		  v-if=" !toggleChecked && addTaskCalendarPopupVisibleOnClickUnderTheHading"
+		  @closeAddTaskPopup="closeAddTaskPopup"
+		  @AddNewTask="AddNewTask"
+		  :item="item"
+		  :customer="customer"
 	  />
 	  
 	  <div class="table-header-navbar-box">
@@ -108,10 +116,11 @@ import addTaskPopup from '@/components/Table/addTaskPopup'
 import addTaskFromCompanyPopup from '@/components/Table/addTaskFromCompanyPopup'
 import addUserFormCompanyPopup from '@/components/Table/addUserFormCompanyPopup'
 import addTaskCalendarPopup from '@/components/Table/addTaskCalendarPopup'
+import addTaskOnClickUnderTheHading from '@/components/Table/addTaskOnClickUnderTheHading'
 
 export default {
     name: "TableHeader",
-    props: ["options", "selected", "taskPopupVisible", "item", "taskCalendarPopupVisible", "ArraySelectedDays","customer"],
+    props: ["options", "selected", "taskPopupVisible", "item", "taskCalendarPopupVisible", "ArraySelectedDays","customer","addTaskCalendarPopupVisibleOnClickUnderTheHading"],
     data() {
 	  return {
 		isInfoPopupVisible: false,
@@ -231,7 +240,8 @@ export default {
 	  addTaskPopup,
 	  addTaskFromCompanyPopup,
 	  addUserFormCompanyPopup,
-	  addTaskCalendarPopup
+	  addTaskCalendarPopup,
+	  addTaskOnClickUnderTheHading
     }
 }
 </script>
