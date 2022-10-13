@@ -32,9 +32,9 @@
 				    </div>
 				    <div>
 					  <span>Customer:</span>
-					  <span>{{customer}}</span>
-					  
-					  
+					  <span>{{ customer }}</span>
+				    
+				    
 				    </div>
 				    <div>
 					  <span>Day start:</span>
@@ -75,7 +75,7 @@
 <script>
 export default {
     name: "addTaskOnClickUnderTheHading",
-    props: ["item","customer"],
+    props: ["item", "customer"],
     data() {
 	  return {
 		taskTitle: '',
@@ -88,8 +88,7 @@ export default {
 		this.$emit('closeAddTaskPopup')
 	  },
 	  onSubmit() {
-		if (this.taskTitle.trim() !== '' && this.dayStart.trim() !== ''
-			&& this.dayFinish.trim() !== '') {
+		if (this.taskTitle.trim() !== '' && this.dayStart.trim() !== '' && this.dayFinish.trim() !== '') {
 		    const newTask = {
 			  task: this.taskTitle,
 			  customer: this.customer,
@@ -116,7 +115,7 @@ export default {
     computed: {
 	  isDisabled() {
 		return this.taskTitle.trim() !== '' && !Number(this.taskTitle)
-		 && this.dayStart.trim() !== '' && this.dayFinish.trim() !== ''
+		&& this.dayStart.trim() !== '' && this.dayFinish.trim() !== ''
 		&& new Date(this.dayStart).getDay() !== 6
 		&& new Date(this.dayStart).getDay() !== 0 && new Date(this.dayFinish).getDay() !== 6
 		&& new Date(this.dayFinish).getDay() !== 0 ? false : true;
@@ -134,7 +133,7 @@ export default {
     left: 179px;
     width: 205px;
     height: 260px;
-    background: #346977;
+    background-color: #666060;
     box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
     border: 1px solid white;
     border-radius: 5px;
@@ -189,6 +188,7 @@ input {
 .incorrectValue {
     border: 2px solid red;
 }
+
 ::placeholder {
     font-size: 10px;
 }

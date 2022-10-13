@@ -284,15 +284,15 @@ export default {
 		],
 		maxTableSize: 50,
 		addTaskPopupVisible: false,
-		addTaskCalendarPopupVisible:false,
-		addTaskCalendarPopupVisibleOnClickUnderTheHading:false,
+		addTaskCalendarPopupVisible: false,
+		addTaskCalendarPopupVisibleOnClickUnderTheHading: false,
 		item: {},
 		customers: ['FuryLion', 'Google', 'IBM', 'Microsoft', 'Yandex'],
 		stateCompany: [],
 		toggleCheckedValue: false,
 		filterInputValue: '',
-		ArraySelectedDays:[],
-		customer:''
+		ArraySelectedDays: [],
+		customer: ''
 	  }
     },
     methods: {
@@ -354,7 +354,7 @@ export default {
 		let findedUser = this.state.find(el => el.id === userId)
 		findedUser.projects.push(newTask)
 	  },
-	  AddNewTaskClickedCalendar(newTask, userId){
+	  AddNewTaskClickedCalendar(newTask, userId) {
 		debugger
 		let findedUser = this.state.find(el => el.id === userId)
 		findedUser.projects.push(newTask)
@@ -394,13 +394,13 @@ export default {
 		this.addTaskPopupVisible = true
 		this.item = item
 	  },
-	  showAddTaskCalendarPopupVisible(item,ArraySelectedDays,customer){
+	  showAddTaskCalendarPopupVisible(item, ArraySelectedDays, customer) {
 		this.addTaskCalendarPopupVisible = true
 		this.item = item
 		this.customer = customer
 		this.ArraySelectedDays = ArraySelectedDays
 	  },
-	  showAddTaskOnClickUnderTheHading(item,customer){
+	  showAddTaskOnClickUnderTheHading(item, customer) {
 		this.addTaskCalendarPopupVisibleOnClickUnderTheHading = true
 		this.item = item
 		this.customer = customer
@@ -409,7 +409,7 @@ export default {
 		this.addTaskPopupVisible = false
 		this.addTaskCalendarPopupVisibleOnClickUnderTheHading = false
 	  },
-	  closeAddTaskCalendarPopup(){
+	  closeAddTaskCalendarPopup() {
 		this.addTaskCalendarPopupVisible = false
 	  },
 	  colspan() {

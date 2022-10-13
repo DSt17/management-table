@@ -9,7 +9,7 @@
 	  </td>
 	  <td v-for="(day,idx) in arrayForRendering()"
 		:data-key="day"
-		:key="idx"
+		:key="day"
 		@mousedown="select"
 		@mouseover="select"
 		@mouseup="openPopup"
@@ -18,9 +18,9 @@
 	  >
 		<span style="font-size: 10px">
 		    {{
-			  
-			  idx + 1 === new Date(item.dayStart).getDate() ? item.workingTimeHours : ''
+			  day === item.dayStart ? item.workingTimeHours : ''
 		    }}
+		   
 		</span>
 	  </td>
     </tr>
@@ -34,7 +34,7 @@ export default {
     data: () => ({
 	  selected: [],
 	  addTaskCalendarPopupVisible: false,
-	  toggleChecked:''
+	  toggleChecked:'',
     }),
     methods: {
 	  key: (day) => `${day}`,
@@ -51,7 +51,6 @@ export default {
 	  },
 	  openOnClickUnderTheHading(){
 		if (!this.toggleChecked) {
-		    debugger
 		    this.$emit('showAddTaskOnClickUnderTheHading',this.item.customer)
 		}
 		},
@@ -65,8 +64,6 @@ export default {
 			  this.selected = []
 		    }
 	  },
-	  
-	  
 	  arrayForRendering() {
 		if (this.clickedCalendar === true) {
 		    return this.rangeDayArray
