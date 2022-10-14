@@ -30,12 +30,11 @@
 	  <div class="scrollTableBody">
 		<table id="table">
 		    <tr style="position: sticky; top: 0; background: white; z-index: 2">
-			  <td class="monthRowHeader" :colspan="colspan() + 1">
-				<div class="monthRowValue">
+			  <td class="monthRowHeader" :colspan="32">
+				<div class="monthRowValue" id="monthRow">
 				<span>
 				    {{
-					  rangeDay.length > 0 ? monthsName[new Date(rangeDay[1]).getMonth()] :
-						  monthsName[new Date(Months[month][0]).getMonth()]
+					  month
 				    }}
 				</span>
 				</div>
@@ -493,13 +492,6 @@ export default {
 	  closeAddTaskCalendarPopup() {
 		this.addTaskCalendarPopupVisible = false
 	  },
-	  colspan() {
-		if (this.rangeDay.length > 0) {
-		    return this.rangeDay.length
-		} else {
-		    return this.Months.October.length
-		}
-	  },
 	  toggleChecked(value) {
 		this.toggleCheckedValue = value
 		if (value === true) {
@@ -546,10 +538,12 @@ export default {
     },
     mounted() {
 	  let table = document.getElementById('table')
+	  
 	  if (table.width < 1030) {
 		table.width = 1030
 	  }
-    }
+	  
+    },
 }
 
 </script>
@@ -603,6 +597,7 @@ export default {
 }
 
 td {
+    width: 26px;
     min-width: 10px;
     height: 25px;
     min-height: 10px;
