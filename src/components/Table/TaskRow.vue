@@ -45,7 +45,6 @@ export default {
 		    } else {
 			  this.selected.push(key);
 		    }
-		    console.log(this.selected)
 		}
 	  },
 	  openOnClickUnderTheHading() {

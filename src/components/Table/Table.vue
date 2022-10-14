@@ -409,7 +409,6 @@ export default {
 		}
 	  },
 	  optionSelect(option) {
-		console.log(option)
 		this.selected = option.name
 	  },
 	  AddNewUser(newUser) {
@@ -435,7 +434,6 @@ export default {
 	  addTaskOnClickUnderTheHading(newTask, userId) {
 		let findedUser = this.state.find(el => el.id === userId)
 		findedUser.projects.push(newTask)
-		console.log(findedUser.projects)
 	  },
 	  AddNewTaskClickedCalendar(newTask, userId) {
 		let findedUser = this.state.find(el => el.id === userId)

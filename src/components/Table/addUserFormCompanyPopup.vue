@@ -113,8 +113,6 @@ export default {
 		this.$emit('closePopup')
 	  },
 	  onSubmit() {
-		console.log(document.getElementById('checkedInput').value)
-		
 		if (this.newUserName.trim() !== '' && this.taskTitle.trim() !== ''
 			&& this.selectedCustomer.trim() !== '' && this.dayStart.trim() !== ''
 			&& this.dayFinish.trim() !== '') {
