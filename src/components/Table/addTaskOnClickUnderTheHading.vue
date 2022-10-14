@@ -96,7 +96,7 @@ export default {
 			  dayStart: this.dayStart.replace(/-/g, '/'),
 			  dayFinish: this.dayFinish.replace(/-/g, '/')
 		    }
-		    this.$emit('AddNewTask', newTask, this.item.id)
+		    this.$emit('addTaskOnClickUnderTheHading', newTask, this.item.id)
 		    document.getElementById('dayStart').value = ''
 		    this.taskTitle = ''
 		    this.dayStart = ''
@@ -137,6 +137,7 @@ export default {
     box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
     border: 1px solid white;
     border-radius: 5px;
+    z-index: 3;
 }
 
 .popup_header {

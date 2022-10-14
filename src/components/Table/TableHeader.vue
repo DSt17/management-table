@@ -19,8 +19,6 @@
 		  @AddNewTask="AddNewTask"
 		  :item="item"
 	  />
-	 
-	  
 	  <addTaskFromCompanyPopup
 		  v-if="toggleChecked && taskPopupVisible"
 		  @closeAddTaskPopup="closeAddTaskPopup"
@@ -43,7 +41,7 @@
 	  <addTaskOnClickUnderTheHading
 		  v-if=" !toggleChecked && addTaskCalendarPopupVisibleOnClickUnderTheHading"
 		  @closeAddTaskPopup="closeAddTaskPopup"
-		  @AddNewTask="AddNewTask"
+		  @addTaskOnClickUnderTheHading="addTaskOnClickUnderTheHading"
 		  :item="item"
 		  :customer="customer"
 	  />
@@ -120,7 +118,7 @@ import addTaskOnClickUnderTheHading from '@/components/Table/addTaskOnClickUnder
 
 export default {
     name: "TableHeader",
-    props: ["options", "selected", "taskPopupVisible", "item", "taskCalendarPopupVisible", "ArraySelectedDays","customer","addTaskCalendarPopupVisibleOnClickUnderTheHading"],
+    props: ["options", "selected", "taskPopupVisible", "item", "taskCalendarPopupVisible", "ArraySelectedDays", "customer", "addTaskCalendarPopupVisibleOnClickUnderTheHading"],
     data() {
 	  return {
 		isInfoPopupVisible: false,
@@ -134,7 +132,7 @@ export default {
 		dayFinish: '',
 		currentMonth: 'October',
 		currentYear: 2022,
-		months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+		monthsName: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
 	  }
     },
     methods: {
@@ -161,11 +159,13 @@ export default {
 		this.$emit('AddNewUserInACompany', newUserInAState, newUserFromCompany, selectedCustomer)
 	  },
 	  AddNewTask(newTask, userId) {
-		debugger
 		this.$emit('AddNewTask', newTask, userId)
 	  },
-	  AddNewTaskClickedCalendar(newTask, userId) {
+	  addTaskOnClickUnderTheHading(newTask, userId) {
 		debugger
+		this.$emit('addTaskOnClickUnderTheHading', newTask, userId)
+	  },
+	  AddNewTaskClickedCalendar(newTask, userId) {
 		this.$emit('AddNewTaskClickedCalendar', newTask, userId)
 	  },
 	  AddNewTaskInCompany(newUser, newTask) {
@@ -187,8 +187,9 @@ export default {
 	  prevMonth() {
 		this.clickedCalendar = false
 		this.$emit('clickedCalendarValue', this.clickedCalendar)
-		if (this.months.indexOf(this.currentMonth) > 0) {
-		    this.currentMonth = this.months[this.months.indexOf(this.currentMonth) - 1]
+		if (this.monthsName.indexOf(this.currentMonth) > 0) {
+		    this.currentMonth = this.monthsName[this.monthsName.indexOf(this.currentMonth) - 1]
+		    this.$emit('currentMonth', this.currentMonth)
 		} else {
 		    this.clickedCalendar = false
 		    this.currentMonth = "December"
@@ -198,8 +199,9 @@ export default {
 	  nextMonth() {
 		this.clickedCalendar = false
 		this.$emit('clickedCalendarValue', this.clickedCalendar)
-		if (this.months.indexOf(this.currentMonth) < 11) {
-		    this.currentMonth = this.months[this.months.indexOf(this.currentMonth) + 1]
+		if (this.monthsName.indexOf(this.currentMonth) < 11) {
+		    this.currentMonth = this.monthsName[this.monthsName.indexOf(this.currentMonth) + 1]
+		    this.$emit('currentMonth', this.currentMonth)
 		} else {
 		    this.clickedCalendar = false
 		    this.currentMonth = "January"

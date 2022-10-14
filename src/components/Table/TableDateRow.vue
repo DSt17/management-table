@@ -17,14 +17,15 @@
     </tr>
     <TasksRow
 	    v-for="(item,idx) in item.projects"
+	    :month="month"
 	    :key="idx"
-	    :dayInAMonths="dayInAMonths"
+	    :Months="Months"
 	    :item="item"
 	    :rangeDayArray="rangeDayArray"
 	    :clickedCalendar="clickedCalendarValue"
 	    :toggleCheckedValue="toggleCheckedValue"
 	    @showAddTaskCalendarPopupVisible="showAddTaskCalendarPopupVisible"
-	    @showAddTaskOnClickUnderTheHading ="showAddTaskOnClickUnderTheHading"
+	    @showAddTaskOnClickUnderTheHading="showAddTaskOnClickUnderTheHading"
     />
     </tbody>
 </template>
@@ -34,10 +35,11 @@
 import TasksRow from '@/components/Table/TaskRow'
 
 export default {
-    props: ["item", "dayInAMonths", "rangeDayArray", "clickedCalendarValue","toggleCheckedValue"],
+    props: ["item", "Months", "rangeDayArray", "clickedCalendarValue", "toggleCheckedValue", "month"],
     data() {
 	  return {
 		clicked: false,
+		currentMonth: 'October'
 	  }
     },
     methods: {
@@ -45,14 +47,15 @@ export default {
 		if (this.clickedCalendarValue === true) {
 		    return this.rangeDayArray
 		} else {
-		    return this.dayInAMonths
+		    this.month !== '' ? this.currentMonth = this.month : ''
+		    return this.Months[this.currentMonth]
 		}
 	  },
-	  showAddTaskCalendarPopupVisible(ArraySelectedDays,customer){
-		this.$emit('showAddTaskCalendarPopupVisible',this.item, ArraySelectedDays,customer)
+	  showAddTaskCalendarPopupVisible(ArraySelectedDays, customer) {
+		this.$emit('showAddTaskCalendarPopupVisible', this.item, ArraySelectedDays, customer)
 	  },
-	  showAddTaskOnClickUnderTheHading(ArraySelectedDays,customer){
-		this.$emit('showAddTaskOnClickUnderTheHading',this.item, ArraySelectedDays,customer)
+	  showAddTaskOnClickUnderTheHading(ArraySelectedDays, customer) {
+		this.$emit('showAddTaskOnClickUnderTheHading', this.item, ArraySelectedDays, customer)
 	  },
 	  showAddTaskPopup() {
 		this.$emit('showAddTaskPopup', this.item)
@@ -86,7 +89,8 @@ td {
     justify-content: space-between;
     align-items: center
 }
-.employeeBackgroundColor{
+
+.employeeBackgroundColor {
     background-color: #666060
 }
 </style>

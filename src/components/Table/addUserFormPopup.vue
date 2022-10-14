@@ -128,7 +128,7 @@ export default {
 				    workingTimeHours: 5,
 				    dayStart: this.dayStart.replace(/-/g, '/'),
 				    dayFinish: this.dayFinish.replace(/-/g, '/')
-				},
+				}
 			  ]
 		    }
 		    this.$emit('AddNewUser', newUser)

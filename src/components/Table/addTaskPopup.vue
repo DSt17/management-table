@@ -145,6 +145,7 @@ export default {
     box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
     border: 1px solid white;
     border-radius: 5px;
+    z-index: 3;
 }
 
 .popup_header {
@@ -196,6 +197,7 @@ input {
 .incorrectValue {
     border: 2px solid red;
 }
+
 ::placeholder {
     font-size: 10px;
 }

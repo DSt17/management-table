@@ -245,6 +245,7 @@ input {
 .incorrectValue {
     border: 2px solid red;
 }
+
 ::placeholder {
     font-size: 10px;
 }

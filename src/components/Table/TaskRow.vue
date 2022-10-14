@@ -1,24 +1,22 @@
 <template>
-    
-    
     <tr>
 	  <td style=" font-size: 10px; position: sticky; left: 0; background-color: white; width: 150px; cursor: pointer"
-	  @click="openOnClickUnderTheHading"
+		@click="openOnClickUnderTheHading"
 	  >
 		{{ item.task }} ({{ item.customer }})
+		
 	  </td>
 	  <td v-for="(day,idx) in arrayForRendering()"
 		:data-key="day"
-		:key="day"
+		:key="idx"
+		:class="selected.includes(key(day)) === true ?  'selected' : workAndWeekendClass(day)"
 		@mousedown="select"
 		@mouseover="select"
 		@mouseup="openPopup"
-		:class="selected.includes(key(day)) === true ?  'selected' : workAndWeekendClass(day)"
-	  
 	  >
 		<span style="font-size: 10px">
 		    {{
-			  day === item.dayStart ? item.workingTimeHours : ''
+			  Date.parse(day) === Date.parse(item.dayStart) ? item.workingTimeHours : ''
 		    }}
 		   
 		</span>
@@ -30,11 +28,12 @@
 
 export default {
     name: "TaskRow",
-    props: ["item", "dayInAMonths", "rangeDayArray", "clickedCalendar", "toggleCheckedValue"],
+    props: ["item", "Months", "rangeDayArray", "clickedCalendar", "toggleCheckedValue", "month"],
     data: () => ({
 	  selected: [],
 	  addTaskCalendarPopupVisible: false,
-	  toggleChecked:'',
+	  toggleChecked: '',
+	  currentMonth: 'October',
     }),
     methods: {
 	  key: (day) => `${day}`,
@@ -49,36 +48,40 @@ export default {
 		    console.log(this.selected)
 		}
 	  },
-	  openOnClickUnderTheHading(){
+	  openOnClickUnderTheHading() {
 		if (!this.toggleChecked) {
-		    this.$emit('showAddTaskOnClickUnderTheHading',this.item.customer)
+		    this.$emit('showAddTaskOnClickUnderTheHading', this.item.customer)
 		}
-		},
+	  },
 	  openPopup() {
 		this.toggleChecked = this.toggleCheckedValue
-		    if (this.selected[this.selected.length - 1]) {
-			  this.addTaskCalendarPopupVisible = true
-			  if (!this.toggleChecked) {
-				this.$emit('showAddTaskCalendarPopupVisible', this.selected,this.item.customer)
-			  }
-			  this.selected = []
+		if (this.selected[this.selected.length - 1]) {
+		    this.addTaskCalendarPopupVisible = true
+		    if (!this.toggleChecked) {
+			  this.$emit('showAddTaskCalendarPopupVisible', this.selected, this.item.customer)
 		    }
+		    this.selected = []
+		}
 	  },
 	  arrayForRendering() {
 		if (this.clickedCalendar === true) {
 		    return this.rangeDayArray
 		} else {
-		    return this.dayInAMonths
+		    this.month !== '' ? this.currentMonth = this.month : ''
+		    return this.Months[this.currentMonth]
 		}
 	  },
 	  workAndWeekendClass(day) {
 		let weekendDayCount = 0
+		let dayStartParse = Date.parse(this.item.dayStart) / 86400000
+		let dayEndParse = Date.parse(this.item.dayFinish) / 86400000
+		let currentDay = Date.parse(day) / 86400000
 		if (new Date(day).getDay() === 6 || new Date(day).getDay() === 0) {
 		    return 'weekendDay'
 		}
-		if (new Date(day).getDate() >= new Date(this.item.dayStart).getDate()
+		if (currentDay >= dayStartParse
 			&&
-			new Date(day).getDate() <= new Date(this.item.dayFinish).getDate() + weekendDayCount) {
+			currentDay <= dayEndParse + weekendDayCount) {
 		    if (new Date(day).getDay() === 6) {
 			  weekendDayCount += 1
 			  return 'weekendDay'
@@ -87,13 +90,13 @@ export default {
 			  weekendDayCount += 1
 			  return 'weekendDay'
 		    } else {
-			  return new Date(day).getMonth() === new Date(this.item.dayStart).getMonth() ||
-			  new Date(day).getMonth() === new Date(this.item.dayFinish).getMonth() ? 'working-day-color' : ''
+			  let findetDate = this.arrayForRendering().find(el => el === day)
+			  if (findetDate) {
+				return 'working-day-color'
+			  }
 		    }
 		}
-		
 	  },
-	  
     },
     
 }
@@ -101,7 +104,7 @@ export default {
 
 <style scoped>
 .selected {
-    background-color: #b774c7;
+    background-color: #346977;
 }
 
 .working-day-color {
