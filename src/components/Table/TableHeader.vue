@@ -88,7 +88,7 @@
 		    <div class="month-button-box" style="color: white">
 			  <span @click="prevMonth"><<</span>
 			  <div class="month-button-value">
-				<div v-if="clickedCalendar === false">{{ currentMonth }}</div>
+				<div v-if="clickedCalendar === false">{{ currentMonth }}{{ currentYear }}</div>
 				<div v-if="clickedCalendar === true" style="font-size: 10px">
 				    {{ dayStart.replace(/-/g, '/') }} - {{ dayFinish.replace(/-/g, '/') }}
 				</div>
@@ -183,10 +183,21 @@ export default {
 		this.rangeDayArray = rangeDayArray
 		this.$emit('rangeDayArray', this.rangeDayArray)
 	  },
+	  
+	  
 	  prevMonth() {
-		debugger
 		this.clickedCalendar = false
 		this.$emit('clickedCalendarValue', this.clickedCalendar)
+		
+		if (this.rangeDayArray.length > 0) {
+		    if (this.monthsName[new Date(this.dayFinish).getMonth() + 1] === undefined) {
+			  this.currentMonth = this.monthsName[0]
+			  this.currentYear++
+		    } else {
+			  this.currentMonth = this.monthsName[new Date(this.dayStart).getMonth() + 1]
+		    }
+		    this.rangeDayArray = []
+		}
 		if (this.monthsName.indexOf(this.currentMonth) > 0) {
 		    this.currentMonth = this.monthsName[this.monthsName.indexOf(this.currentMonth) - 1]
 		    this.$emit('currentMonth', this.currentMonth)
@@ -198,9 +209,17 @@ export default {
 		}
 	  },
 	  nextMonth() {
-		debugger
 		this.clickedCalendar = false
 		this.$emit('clickedCalendarValue', this.clickedCalendar)
+		if (this.rangeDayArray.length > 0) {
+		    if (this.monthsName[new Date(this.dayFinish).getMonth() - 1] === undefined) {
+			  this.currentMonth = this.monthsName[11]
+			  this.currentYear--
+		    } else {
+			  this.currentMonth = this.monthsName[new Date(this.dayFinish).getMonth() - 1]
+		    }
+		    this.rangeDayArray = []
+		}
 		if (this.monthsName.indexOf(this.currentMonth) < 11) {
 		    this.currentMonth = this.monthsName[this.monthsName.indexOf(this.currentMonth) + 1]
 		    this.$emit('currentMonth', this.currentMonth)

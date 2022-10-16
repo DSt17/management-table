@@ -33,7 +33,9 @@
 			  <td class="monthRowHeader" :colspan="colspan()">
 				<div class="monthRowValue" id="monthRow">
 				<span>
-				    {{ month }}
+				    {{
+					  this.rangeDay.length > 0 ? this.monthsName[new Date(this.rangeDay[0]).getMonth()] : this.month
+				    }}
 				</span>
 				</div>
 			  </td>
@@ -375,12 +377,11 @@ export default {
 	  }
     },
     methods: {
-	  colspan(){
-		if(this.rangeDay.length === 0){
+	  colspan() {
+		if (this.rangeDay.length === 0) {
 		    return this.monthsState[this.month].length + 1
-		}
-		else{
-		   return this.rangeDay.length + 1
+		} else {
+		    return this.rangeDay.length + 1
 		}
 	  },
 	  currentMonth(month) {
@@ -544,7 +545,7 @@ export default {
 		    else return elem.title.indexOf(InputValue) > -1;
 		})
 	  },
-	 
+	  
     },
     components: {
 	  TableDateRow, TableHeader, vSelect
