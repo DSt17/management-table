@@ -88,7 +88,7 @@
 		    <div class="month-button-box" style="color: white">
 			  <span @click="prevMonth"><<</span>
 			  <div class="month-button-value">
-				<div v-if="clickedCalendar === false">{{ currentMonth }}{{ currentYear }}</div>
+				<div v-if="clickedCalendar === false">{{ currentMonth }}</div>
 				<div v-if="clickedCalendar === true" style="font-size: 10px">
 				    {{ dayStart.replace(/-/g, '/') }} - {{ dayFinish.replace(/-/g, '/') }}
 				</div>
