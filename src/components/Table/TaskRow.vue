@@ -28,7 +28,7 @@
 
 export default {
     name: "TaskRow",
-    props: ["item", "Months", "rangeDayArray", "clickedCalendar", "toggleCheckedValue", "month"],
+    props: ["item", "monthsState", "rangeDayArray", "clickedCalendar", "toggleCheckedValue", "month"],
     data: () => ({
 	  selected: [],
 	  addTaskCalendarPopupVisible: false,
@@ -67,7 +67,7 @@ export default {
 		    return this.rangeDayArray
 		} else {
 		    this.month !== '' ? this.currentMonth = this.month : ''
-		    return this.Months[this.currentMonth]
+		    return this.monthsState[this.currentMonth]
 		}
 	  },
 	  workAndWeekendClass(day) {

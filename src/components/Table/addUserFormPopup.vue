@@ -32,10 +32,8 @@
 						   autocomplete="off"
 					  >
 					  <datalist id="employmentsArray">
-						
 						<option v-for="employee in employees">{{ employee }}</option>
 					  </datalist>
-				    
 				    </div>
 				    <div>
 					  <span>Task:</span>

@@ -19,7 +19,7 @@
 	    v-for="(item,idx) in item.projects"
 	    :month="month"
 	    :key="idx"
-	    :Months="Months"
+	    :monthsState="monthsState"
 	    :item="item"
 	    :rangeDayArray="rangeDayArray"
 	    :clickedCalendar="clickedCalendarValue"
@@ -35,7 +35,7 @@
 import TasksRow from '@/components/Table/TaskRow'
 
 export default {
-    props: ["item", "Months", "rangeDayArray", "clickedCalendarValue", "toggleCheckedValue", "month"],
+    props: ["item", "monthsState", "rangeDayArray", "clickedCalendarValue", "toggleCheckedValue", "month"],
     data() {
 	  return {
 		clicked: false,
@@ -48,7 +48,7 @@ export default {
 		    return this.rangeDayArray
 		} else {
 		    this.month !== '' ? this.currentMonth = this.month : ''
-		    return this.Months[this.currentMonth]
+		    return this.monthsState[this.currentMonth]
 		}
 	  },
 	  showAddTaskCalendarPopupVisible(ArraySelectedDays, customer) {

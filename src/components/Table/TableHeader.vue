@@ -184,6 +184,7 @@ export default {
 		this.$emit('rangeDayArray', this.rangeDayArray)
 	  },
 	  prevMonth() {
+		debugger
 		this.clickedCalendar = false
 		this.$emit('clickedCalendarValue', this.clickedCalendar)
 		if (this.monthsName.indexOf(this.currentMonth) > 0) {
@@ -192,10 +193,12 @@ export default {
 		} else {
 		    this.clickedCalendar = false
 		    this.currentMonth = "December"
+		    this.$emit('currentMonth', this.currentMonth)
 		    this.currentYear--
 		}
 	  },
 	  nextMonth() {
+		debugger
 		this.clickedCalendar = false
 		this.$emit('clickedCalendarValue', this.clickedCalendar)
 		if (this.monthsName.indexOf(this.currentMonth) < 11) {
@@ -204,6 +207,7 @@ export default {
 		} else {
 		    this.clickedCalendar = false
 		    this.currentMonth = "January"
+		    this.$emit('currentMonth', this.currentMonth)
 		    this.currentYear++
 		}
 	  },
