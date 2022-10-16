@@ -162,7 +162,6 @@ export default {
 		this.$emit('AddNewTask', newTask, userId)
 	  },
 	  addTaskOnClickUnderTheHading(newTask, userId) {
-		debugger
 		this.$emit('addTaskOnClickUnderTheHading', newTask, userId)
 	  },
 	  AddNewTaskClickedCalendar(newTask, userId) {

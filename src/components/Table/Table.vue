@@ -30,12 +30,10 @@
 	  <div class="scrollTableBody">
 		<table id="table">
 		    <tr style="position: sticky; top: 0; background: white; z-index: 2">
-			  <td class="monthRowHeader" :colspan="32">
+			  <td class="monthRowHeader" :colspan="colspan()">
 				<div class="monthRowValue" id="monthRow">
 				<span>
-				    {{
-					  month
-				    }}
+				    {{ month }}
 				</span>
 				</div>
 			  </td>
@@ -57,7 +55,12 @@
 				  v-for="(day,idx) in arrayForRendering()"
 				  :key="idx"
 				  :class="new Date(day).getDay() === 6 || new Date(day).getDay() === 0 ? 'weekendDay' : '' "
-			  ><span style="font-size: 12px; font-weight: bold;">{{ new Date(day).getDate() }}</span>
+			  >
+				<div style="min-width: 15px">
+				<span style="font-size: 12px; font-weight: bold;">
+				{{ new Date(day).getDate() }}
+			  </span>
+				</div>
 			  </td>
 		    </tr>
 		    
@@ -372,7 +375,16 @@ export default {
 	  }
     },
     methods: {
+	  colspan(){
+		if(this.rangeDay.length === 0){
+		    return this.Months[this.month].length + 1
+		}
+		else{
+		   return this.rangeDay.length + 1
+		}
+	  },
 	  currentMonth(month) {
+		this.rangeDay = []
 		this.month = month
 	  },
 	  sortedByName() {
@@ -531,7 +543,8 @@ export default {
 		    if (InputValue === '') return true;
 		    else return elem.title.indexOf(InputValue) > -1;
 		})
-	  }
+	  },
+	 
     },
     components: {
 	  TableDateRow, TableHeader, vSelect
@@ -597,7 +610,6 @@ export default {
 }
 
 td {
-    width: 26px;
     min-width: 10px;
     height: 25px;
     min-height: 10px;

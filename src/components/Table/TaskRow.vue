@@ -4,7 +4,7 @@
 		@click="openOnClickUnderTheHading"
 	  >
 		{{ item.task }} ({{ item.customer }})
-		
+	  
 	  </td>
 	  <td v-for="(day,idx) in arrayForRendering()"
 		:data-key="day"
