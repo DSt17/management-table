@@ -25,6 +25,7 @@
 			@toggleChecked="toggleChecked"
 			@AddNewUserInACompany="AddNewUserInACompany"
 			@currentMonth="currentMonth"
+			@addVacationOrStickDay="addVacationOrStickDay"
 		/>
 	  </div>
 	  <div class="scrollTableBody">
@@ -49,7 +50,6 @@
 				    <div style="width:50%">
 					  <span v-if="toggleCheckedValue">People</span>
 					  <span v-if="!toggleCheckedValue">Client</span>
-				    
 				    </div>
 				</div>
 			  </td>
@@ -194,8 +194,11 @@ export default {
 			  id: 1,
 			  title: "Katrin Flanders",
 			  status: 'in Process',
+			  vacation: [],
+			  sickDay: [],
 			  projects: [
 				{
+				    projectName: '',
 				    task: "Lending",
 				    customer: "Google",
 				    workingTimeHours: 10,
@@ -203,6 +206,7 @@ export default {
 				    dayFinish: "10/17/2022"
 				},
 				{
+				    projectName: '',
 				    task: "Update",
 				    customer: "IBM",
 				    workingTimeHours: 15,
@@ -210,6 +214,7 @@ export default {
 				    dayFinish: "11/22/2022"
 				},
 				{
+				    projectName: '',
 				    task: "Reset",
 				    customer: "Microsoft",
 				    workingTimeHours: 2,
@@ -222,8 +227,11 @@ export default {
 			  id: 2,
 			  title: "Jon Smith",
 			  status: 'Free',
+			  vacation: [],
+			  sickDay: [],
 			  projects: [
 				{
+				    projectName: '',
 				    task: "SPA",
 				    customer: "Google",
 				    workingTimeHours: 4,
@@ -231,6 +239,7 @@ export default {
 				    dayFinish: "10/11/2022"
 				},
 				{
+				    projectName: '',
 				    task: "Settings",
 				    customer: "FuryLion",
 				    workingTimeHours: 8,
@@ -243,24 +252,51 @@ export default {
 			  id: 3,
 			  title: "Jet Li ",
 			  status: 'Free',
+			  vacation: [],
+			  sickDay: [],
 			  projects: [
 				{
+				    projectName: '',
 				    task: "SPA",
 				    customer: "IBM",
 				    workingTimeHours: 5,
 				    dayStart: "10/5/2022",
 				    dayFinish: "10/11/2022"
 				},
-				{task: "Settings", customer: "Yandex", workingTimeHours: 0, dayStart: '', dayFinish: ''}]
+				{
+				    projectName: '',
+				    task: "Settings",
+				    customer: "Yandex",
+				    workingTimeHours: 0,
+				    dayStart: '',
+				    dayFinish: ''
+				}]
 		    },
 		    {
 			  id: 4,
 			  title: "Katya Bloom",
 			  status: 'Free',
+			  vacation: [],
+			  sickDay: [],
 			  projects: [
-				{task: "SPA", customer: "Google", workingTimeHours: 0, dayStart: '', dayFinish: ''},
-				{task: "SPA", customer: "IBM", workingTimeHours: 0, dayStart: '', dayFinish: ''},
 				{
+				    projectName: '',
+				    task: "SPA",
+				    customer: "Google",
+				    workingTimeHours: 0,
+				    dayStart: '',
+				    dayFinish: ''
+				},
+				{
+				    projectName: '',
+				    task: "SPA",
+				    customer: "IBM",
+				    workingTimeHours: 0,
+				    dayStart: '',
+				    dayFinish: ''
+				},
+				{
+				    projectName: '',
 				    task: "Settings",
 				    customer: "Microsoft",
 				    workingTimeHours: 10,
@@ -272,28 +308,52 @@ export default {
 			  id: 5,
 			  title: "Chack Jones",
 			  status: 'in Process',
+			  vacation: [],
+			  sickDay: [],
 			  projects: [
 				{
+				    projectName: '',
 				    task: "SPA",
 				    customer: "Google",
 				    workingTimeHours: 2,
 				    dayStart: "10/4/2022",
 				    dayFinish: "10/6/2022",
 				},
-				{task: "Settings", customer: "FuryLion", workingTimeHours: 0, dayStart: '', dayFinish: ''}
+				{
+				    projectName: '',
+				    task: "Settings",
+				    customer: "FuryLion",
+				    workingTimeHours: 0,
+				    dayStart: '',
+				    dayFinish: ''
+				}
 			  ]
 		    },
 		    {
-			  id: 6, title: "Boris Grechka ", projects: [
-				{task: "SPA", customer: "IBM"}, {task: "Settings", customer: "Yandex"}]
+			  id: 6,
+			  title: "Boris Grechka ",
+			  vacation: [],
+			  sickDay: [],
+			  projects: [
+				{
+				    projectName: '',
+				    task: "Settings",
+				    customer: "FuryLion",
+				    workingTimeHours: 0,
+				    dayStart: '',
+				    dayFinish: ''
+				}
+			  ]
 		    },
 		    {
 			  id: 7,
 			  title: "Pavel Poddubniy",
 			  status: 'in Process',
+			  vacation: [],
+			  sickDay: [],
 			  projects: [
-				{task: "SPA", customer: "Google"},
 				{
+				    projectName: '',
 				    task: "SPA",
 				    customer: "IBM",
 				    workingTimeHours: 5,
@@ -301,6 +361,7 @@ export default {
 				    dayFinish: "10/14/2022"
 				},
 				{
+				    projectName: '',
 				    task: "Settings",
 				    customer: "Microsoft",
 				    workingTimeHours: 10,
@@ -312,8 +373,11 @@ export default {
 			  id: 8,
 			  title: "Poul Blond",
 			  status: 'in Process',
+			  vacation: [],
+			  sickDay: [],
 			  projects: [
 				{
+				    projectName: '',
 				    task: "SPA",
 				    customer: "Google",
 				    dayStart: "10/3/2022",
@@ -321,6 +385,7 @@ export default {
 				    workingTimeHours: 10
 				},
 				{
+				    projectName: '',
 				    task: "Settings",
 				    customer: "FuryLion",
 				    dayStart: "10/7/2022",
@@ -331,9 +396,19 @@ export default {
 		    {
 			  id: 9,
 			  title: "Jeck Loony ",
+			  vacation: [],
+			  sickDay: [],
 			  projects: [
-				{task: "SPA", customer: "IBM", workingTimeHours: 0, dayStart: '', dayFinish: ''},
 				{
+				    projectName: '',
+				    task: "SPA",
+				    customer: "IBM",
+				    workingTimeHours: 0,
+				    dayStart: '',
+				    dayFinish: ''
+				},
+				{
+				    projectName: '',
 				    task: "Settings",
 				    customer: "Yandex",
 				    workingTimeHours: 5,
@@ -344,9 +419,11 @@ export default {
 		    {
 			  id: 10,
 			  title: "Elizavetta Cruz",
+			  vacation: [],
+			  sickDay: [],
 			  projects: [
-				{task: "SPA", customer: "Google", workingTimeHours: 0, dayStart: '', dayFinish: '',},
 				{
+				    projectName: '',
 				    task: "SPA",
 				    customer: "IBM",
 				    workingTimeHours: 24,
@@ -354,12 +431,14 @@ export default {
 				    dayFinish: "10/17/2022",
 				},
 				{
+				    projectName: '',
 				    task: "Settings",
 				    customer: "Microsoft",
 				    workingTimeHours: 10,
 				    dayStart: "10/12/2022",
 				    dayFinish: "10/14/2022",
-				}]
+				}
+			  ]
 		    },
 		],
 		maxTableSize: 50,
@@ -373,7 +452,7 @@ export default {
 		filterInputValue: '',
 		ArraySelectedDays: [],
 		customer: '',
-		tableWidth: ''
+		tableWidth: '',
 	  }
     },
     methods: {
@@ -451,6 +530,14 @@ export default {
 		let findedUser = this.state.find(el => el.id === userId)
 		findedUser.projects.push(newTask)
 	  },
+	  addVacationOrStickDay(selectedDays, userId, pickedValue) {
+		let findedUser = this.state.find(el => el.id === userId)
+		if (pickedValue === 'sick day') {
+		    findedUser.sickDay = [...findedUser.sickDay, ...selectedDays]
+		} else {
+		    findedUser.vacation = [...findedUser.vacation, ...selectedDays]
+		}
+	  },
 	  AddNewTaskInCompany(newUser, newTask) {
 		let findedCompany = this.stateCompany.find(el => el.title === newUser.projects[0].customer)
 		findedCompany.projects.push(newTask)
@@ -514,6 +601,8 @@ export default {
 				id: new Date().getTime(),
 				title: this.customers[i],
 				status: 'in Process',
+				vacation: [],
+				sickDay: [],
 				projects: []
 			  }
 			  let customerProjects = this.state.map((el) => {
@@ -545,19 +634,16 @@ export default {
 		    else return elem.title.indexOf(InputValue) > -1;
 		})
 	  },
-	  
-    },
-    components: {
-	  TableDateRow, TableHeader, vSelect
     },
     mounted() {
 	  let table = document.getElementById('table')
-	  
 	  if (table.width < 1030) {
 		table.width = 1030
 	  }
-	  
     },
+    components: {
+	  TableDateRow, TableHeader, vSelect
+    }
 }
 
 </script>

@@ -3,7 +3,7 @@
 	  <td style=" font-size: 10px; position: sticky; left: 0; background-color: white; width: 150px; cursor: pointer"
 		@click="openOnClickUnderTheHading"
 	  >
-		{{ item.task }} ({{ item.customer }})
+		{{ project.task }} ({{ project.customer }})
 	  
 	  </td>
 	  <td v-for="(day,idx) in arrayForRendering()"
@@ -15,10 +15,7 @@
 		@mouseup="openPopup"
 	  >
 		<span style="font-size: 10px">
-		    {{
-			  Date.parse(day) === Date.parse(item.dayStart) ? item.workingTimeHours : ''
-		    }}
-		   
+		    {{ Date.parse(day) === Date.parse(project.dayStart) ? project.workingTimeHours : '' }}
 		</span>
 	  </td>
     </tr>
@@ -28,7 +25,7 @@
 
 export default {
     name: "TaskRow",
-    props: ["item", "monthsState", "rangeDayArray", "clickedCalendar", "toggleCheckedValue", "month"],
+    props: ["project", "item", "monthsState", "rangeDayArray", "clickedCalendar", "toggleCheckedValue", "month"],
     data: () => ({
 	  selected: [],
 	  addTaskCalendarPopupVisible: false,
@@ -49,7 +46,7 @@ export default {
 	  },
 	  openOnClickUnderTheHading() {
 		if (!this.toggleChecked) {
-		    this.$emit('showAddTaskOnClickUnderTheHading', this.item.customer)
+		    this.$emit('showAddTaskOnClickUnderTheHading', this.project.customer)
 		}
 	  },
 	  openPopup() {
@@ -57,7 +54,7 @@ export default {
 		if (this.selected[this.selected.length - 1]) {
 		    this.addTaskCalendarPopupVisible = true
 		    if (!this.toggleChecked) {
-			  this.$emit('showAddTaskCalendarPopupVisible', this.selected, this.item.customer)
+			  this.$emit('showAddTaskCalendarPopupVisible', this.selected, this.project.customer)
 		    }
 		    this.selected = []
 		}
@@ -72,15 +69,19 @@ export default {
 	  },
 	  workAndWeekendClass(day) {
 		let weekendDayCount = 0
-		let dayStartParse = Date.parse(this.item.dayStart) / 86400000
-		let dayEndParse = Date.parse(this.item.dayFinish) / 86400000
+		let dayStartParse = Date.parse(this.project.dayStart) / 86400000
+		let dayEndParse = Date.parse(this.project.dayFinish) / 86400000
 		let currentDay = Date.parse(day) / 86400000
 		if (new Date(day).getDay() === 6 || new Date(day).getDay() === 0) {
 		    return 'weekendDay'
 		}
-		if (currentDay >= dayStartParse
-			&&
-			currentDay <= dayEndParse + weekendDayCount) {
+		if (this.item.vacation.find(el => el === day)) {
+		    return 'vacationDay'
+		}
+		if (this.item.sickDay.find(el => el === day) === day) {
+		    return 'sickDay'
+		}
+		if (currentDay >= dayStartParse && currentDay <= dayEndParse + weekendDayCount) {
 		    if (new Date(day).getDay() === 6) {
 			  weekendDayCount += 1
 			  return 'weekendDay'
@@ -97,13 +98,12 @@ export default {
 		}
 	  },
     },
-    
 }
 </script>
 
 <style scoped>
 .selected {
-    background-color: #346977;
+    background-color: #666060
 }
 
 .working-day-color {
@@ -114,5 +114,13 @@ export default {
 
 .weekendDay {
     background-color: #f3f2f2;
+}
+
+.vacationDay {
+    background-color: #999386;
+}
+
+.sickDay {
+    background-color: #da7070;
 }
 </style>

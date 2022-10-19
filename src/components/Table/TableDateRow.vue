@@ -11,15 +11,18 @@
 		    </div>
 		</div>
 	  </td>
-	  <td v-for="(i,idx) in arrayForRendering()"
-		:key="idx">
+	  <td v-for="(day,idx) in arrayForRendering()"
+		:data-key="day"
+		:key="idx"
+	  >
 	  </td>
     </tr>
     <TasksRow
-	    v-for="(item,idx) in item.projects"
+	    v-for="(project,idx) in item.projects"
 	    :month="month"
 	    :key="idx"
 	    :monthsState="monthsState"
+	    :project="project"
 	    :item="item"
 	    :rangeDayArray="rangeDayArray"
 	    :clickedCalendar="clickedCalendarValue"
@@ -39,7 +42,7 @@ export default {
     data() {
 	  return {
 		clicked: false,
-		currentMonth: 'October'
+		currentMonth: 'October',
 	  }
     },
     methods: {
@@ -67,6 +70,7 @@ export default {
 
 
 <style>
+
 td {
     border: 1px solid black;
     border-top: none;

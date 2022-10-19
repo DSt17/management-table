@@ -97,6 +97,7 @@ export default {
 		if (this.taskTitle.trim() !== '' && this.selectedCustomer.trim() !== ''
 			&& this.dayStart.trim() !== '' && this.dayFinish.trim() !== '') {
 		    const newTask = {
+			  projectName: '',
 			  task: this.taskTitle,
 			  customer: this.selectedCustomer,
 			  workingTimeHours: 5,

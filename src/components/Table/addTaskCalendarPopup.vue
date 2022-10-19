@@ -7,14 +7,63 @@
 			  <i class="material-icons" v-on:click="closeAddTaskCalendarPopup">cancel</i>
 		    </span>
 		</div>
-		<div>
-		    <form v-on:submit.prevent="onSubmit">
-			  
+		
+		
+		<div :class="sickDayVisible === false ? 'tab-other' : 'tab-task'">
+		    <div style="width: 50%; height: 100%; border-right: 1px solid white; cursor: pointer"
+			   @click="sickDayVisible = false"
+		    >
+			  Task
+		    </div>
+		    <div style="width: 50%;height: 100%; background-color: rgb(88 76 76); cursor: pointer"
+			   @click="sickDayVisible = true"
+		    >
+			  Other..
+		    </div>
+		</div>
+		<div v-if="sickDayVisible === true"
+		     style="width: 100%; height: 172px; border-bottom-left-radius: 5px;
+		     border-bottom-right-radius: 5px;background-color: rgb(88 76 76);"
+		>
+		    <div style="display: flex; flex-direction: column; padding: 5px">
+			  <div class="formBody">
+				<div>
+				    <span>Sick day:</span>
+				    <input type="radio" id="sickDay" value="sick day" v-model="picked">
+				</div>
+				<div style="margin-top: 3px">
+				    <span>Vacation:</span>
+				    <input type="radio" id="vacation" value="vacation" v-model="picked">
+				
+				</div>
+				<div>
+				    <span>Day start:</span>
+				    <span>{{ ArraySelectedDays[0] }}</span>
+				</div>
+				<div>
+				    <span>Day finish:</span>
+				    <span>{{ ArraySelectedDays[ArraySelectedDays.length - 1] }}</span>
+				</div>
+				<div>
+				    <button
+					    @click="setVacationAndStickDay"
+					    :disabled="isDisabledOtherTabButton"
+				    >
+					  Add
+				    </button>
+				    <div>{{ picked }}</div>
+				</div>
+			  </div>
+		    </div>
+		</div>
+		<div v-if="sickDayVisible === false">
+		    <form id="onSubmit" v-on:submit.prevent="onSubmit">
 			  <div style="display: flex; flex-direction: column; padding: 5px">
 				<div class="formBody">
 				    <div>
 					  <span>Task:</span>
 					  <input type="text"
+						   style=" width: 100px; outline: none;"
 						   v-model="taskTitle"
 						   placeholder="new task title.."
 						   title="value must be a string!"
@@ -23,15 +72,15 @@
 				    </div>
 				    <div>
 					  <span>Customer:</span>
-					  <span>{{customer}}</span>
+					  <span>{{ customer }}</span>
 				    </div>
 				    <div>
 					  <span>Day start:</span>
-					  <span>{{ArraySelectedDays[0]}}</span>
+					  <span>{{ ArraySelectedDays[0] }}</span>
 				    </div>
 				    <div>
 					  <span>Day finish:</span>
-					  <span>{{ArraySelectedDays[ArraySelectedDays.length-1]}}</span>
+					  <span>{{ ArraySelectedDays[ArraySelectedDays.length - 1] }}</span>
 				    </div>
 				    <div>
 					  <button type="submit"
@@ -52,10 +101,12 @@
 <script>
 export default {
     name: "addTaskCalendarPopup",
-    props: ["item","ArraySelectedDays","customer"],
+    props: ["item", "ArraySelectedDays", "customer"],
     data() {
 	  return {
-		taskTitle:'',
+		taskTitle: '',
+		sickDayVisible: false,
+		picked: ''
 	  }
     },
     methods: {
@@ -63,19 +114,24 @@ export default {
 		this.$emit('closeAddTaskCalendarPopup')
 	  },
 	  onSubmit() {
-		if (this.taskTitle.trim() !== ''){
+		if (this.taskTitle.trim() !== '') {
 		    const newTask = {
+			  projectName: '',
 			  task: this.taskTitle,
 			  customer: this.customer,
 			  workingTimeHours: 5,
 			  dayStart: this.ArraySelectedDays[0],
-			  dayFinish: this.ArraySelectedDays[this.ArraySelectedDays.length-1]
+			  dayFinish: this.ArraySelectedDays[this.ArraySelectedDays.length - 1]
 		    }
 		    this.$emit('AddNewTaskClickedCalendar', newTask, this.item.id)
 		    this.taskTitle = ''
 		    this.$emit('closeAddTaskCalendarPopup')
 		}
 	  },
+	  setVacationAndStickDay() {
+		this.$emit('addVacationOrStickDay', this.ArraySelectedDays, this.item.id, this.picked)
+		this.$emit('closeAddTaskCalendarPopup')
+	  }
     },
     mounted() {
 	  let vm = this;
@@ -87,12 +143,15 @@ export default {
     },
     computed: {
 	  isDisabled() {
-		return  this.taskTitle.trim() !== '' && !Number(this.taskTitle) &&
+		return this.taskTitle.trim() !== '' && !Number(this.taskTitle) &&
 		new Date(this.ArraySelectedDays[0]).getDay() !== 6 &&
 		new Date(this.ArraySelectedDays[0]).getDay() !== 0 &&
-		new Date(this.ArraySelectedDays[this.ArraySelectedDays.length-1]).getDay() !== 6
-		&& new Date(this.ArraySelectedDays[this.ArraySelectedDays.length-1]).getDay() !== 0 ? false : true;
+		new Date(this.ArraySelectedDays[this.ArraySelectedDays.length - 1]).getDay() !== 6
+		&& new Date(this.ArraySelectedDays[this.ArraySelectedDays.length - 1]).getDay() !== 0 ? false : true;
 	  },
+	  isDisabledOtherTabButton() {
+		return this.picked !== '' ? false : true
+	  }
     }
 }
 </script>
@@ -100,7 +159,6 @@ export default {
 <style scoped>
 .v_popup {
     color: white;
-    padding: 2px;
     position: fixed;
     top: 137px;
     left: 179px;
@@ -146,7 +204,7 @@ button {
     border-color: white;
     width: 80px;
     height: 20px;
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 input:focus:invalid {
@@ -154,15 +212,26 @@ input:focus:invalid {
     color: red;
 }
 
-input {
-    outline: none;
-    width: 100px;
-}
 
 .incorrectValue {
     border: 2px solid red;
 }
+
 ::placeholder {
     font-size: 10px;
+}
+
+.tab-other {
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    border-top: 1px solid white;
+}
+
+.tab-task {
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    border-top: 1px solid white;
 }
 </style>

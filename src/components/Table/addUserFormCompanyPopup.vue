@@ -115,14 +115,16 @@ export default {
 	  onSubmit() {
 		if (this.newUserName.trim() !== '' && this.taskTitle.trim() !== ''
 			&& this.selectedCustomer.trim() !== '' && this.dayStart.trim() !== ''
-			&& this.dayFinish.trim() !== '') {``
-		    
+			&& this.dayFinish.trim() !== '') {
 		    const newUserInAState = {
 			  id: new Date().getTime(),
 			  title: this.newUserName,
 			  status: 'in Process',
+			  vacation: [],
+			  sickDay: [],
 			  projects: [
 				{
+				    projectName: '',
 				    task: this.taskTitle,
 				    customer: this.selectedCustomer,
 				    workingTimeHours: 5,

@@ -22,6 +22,15 @@
 			  <div style="display: flex; flex-direction: column; padding: 5px">
 				<div class="formBody">
 				    <div>
+					  <span>Project:</span>
+					  <input type="text"
+						   v-model="projectName"
+						   placeholder="project name.."
+						   title="value must be a string!"
+						   pattern="^[a-zA-Z\s]+$"
+					  >
+				    </div>
+				    <div>
 					  <span>Task:</span>
 					  <input type="text"
 						   v-model="employeeName"
@@ -42,7 +51,6 @@
 						   autocomplete="off"
 					  >
 					  <datalist id="employmentsArray">
-						
 						<option v-for="employee in employees">{{ employee }}</option>
 					  </datalist>
 				    
@@ -63,6 +71,15 @@
 					     new Date(this.dayFinish).getDay() === 0 ? 'incorrectValue' : '' "
 						  type="date"
 						  v-model="dayFinish"
+					  >
+				    </div>
+				    <div class="range-slider">
+					  <span>Chance:</span>
+					  <span>{{rangeChance}} %</span>
+					  <input class="chanceSlider"
+						   id="rangeChance" type="range" min="25" max="100" step="25"
+						   v-model.number="rangeChance"
+						   @change = "changeChanceRangeColor"
 					  >
 				    </div>
 				    <div>
@@ -86,14 +103,31 @@ export default {
     props: ["item"],
     data() {
 	  return {
+		projectName:'',
 		employeeName: '',
 		selectedEmployee: '',
 		dayStart: '',
 		dayFinish: '',
+		rangeChance:100,
 		employees: ["Katrin Flanders", "Jon Smith", "Jet Li ", "Katya Bloom", "Chack Jones", "Pavel Poddubniy", "Poul Blond", "Jeck Loony ", "Elizavetta Cruz"]
 	  }
     },
     methods: {
+	  changeChanceRangeColor(){
+		const rangeLine = document.getElementById('rangeChance')
+		if(this.rangeChance <= 25){
+		    rangeLine.style.background = '#f51d2d'
+		}
+		if(this.rangeChance === 50){
+		    rangeLine.style.background = 'orange'
+		}
+		if(this.rangeChance === 75){
+		    rangeLine.style.background = 'yellow'
+		}
+		if(this.rangeChance === 100){
+		    rangeLine.style.background = '#00d90087'
+		}
+	  },
 	  checkInput(event) {
 		this.selectedEmployee = event.target.value
 	  },
@@ -114,8 +148,11 @@ export default {
 			  id: new Date().getTime(),
 			  title: this.selectedEmployee,
 			  status: 'in Process',
+			  vacation: [],
+			  sickDay: [],
 			  projects: [
 				{
+				    projectName:this.projectName,
 				    task: this.employeeName,
 				    customer: this.item.title,
 				    workingTimeHours: 5,
@@ -124,10 +161,10 @@ export default {
 				},
 			  ]
 		    }
-		    
 		    this.$emit('AddNewTaskInCompany', newUser, newTask)
 		    this.selectedEmployee = ''
 		    this.employeeName = ''
+		    this.projectName = ''
 		    this.dayStart = ''
 		    this.dayFinish = ''
 		    document.getElementById('checkedInput').value = ''
@@ -149,7 +186,7 @@ export default {
 		&& this.dayFinish.trim() !== '' && new Date(this.dayStart).getDay() !== 6
 		&& new Date(this.dayStart).getDay() !== 0 && new Date(this.dayFinish).getDay() !== 6
 		&& new Date(this.dayFinish).getDay() !== 0 ? false : true;
-	  },
+	  }
     }
 }
 </script>
@@ -159,14 +196,15 @@ export default {
     color: white;
     padding: 2px;
     position: fixed;
-    top: 137px;
+    top: 108px;
     left: 179px;
-    width: 205px;
-    height: 260px;
+    width: 210px;
+    height: 301px;
     background: #346977;
     box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
     border: 1px solid white;
     border-radius: 5px;
+    z-index: 3;
 }
 
 .popup_header {
@@ -202,7 +240,6 @@ button {
     border-color: white;
     width: 80px;
     height: 20px;
-    margin-top: 20px;
 }
 
 input:focus:invalid {
@@ -221,5 +258,26 @@ input {
 
 ::placeholder {
     font-size: 10px;
+}
+span{
+    font-size: 12px;
+}
+.chanceSlider {
+    -webkit-appearance: none;
+    width: 105px;
+    height: 4px;
+    border-radius: 5px;
+    background: #00d90087;
+    outline: none;
+    margin: 5px 0 10px 0;
+}
+
+.chanceSlider::-webkit-slider-thumb {
+    appearance: none;
+    width: 11px;
+    height: 11px;
+    border-radius: 100%;
+    background: white;
+    cursor: pointer;
 }
 </style>

@@ -90,6 +90,7 @@ export default {
 	  onSubmit() {
 		if (this.taskTitle.trim() !== '' && this.dayStart.trim() !== '' && this.dayFinish.trim() !== '') {
 		    const newTask = {
+			  projectName: '',
 			  task: this.taskTitle,
 			  customer: this.customer,
 			  workingTimeHours: 5,

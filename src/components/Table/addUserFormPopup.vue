@@ -119,8 +119,11 @@ export default {
 			  id: new Date().getTime(),
 			  title: this.newUserName,
 			  status: 'in Process',
+			  vacation: [],
+			  sickDay: [],
 			  projects: [
 				{
+				    projectName: '',
 				    task: this.taskTitle,
 				    customer: this.selectedCustomer,
 				    workingTimeHours: 5,

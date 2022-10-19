@@ -15,15 +15,17 @@
 	  />
 	  <addTaskPopup
 		  v-if=" !toggleChecked && taskPopupVisible && !addTaskCalendarPopupVisibleOnClickUnderTheHading"
+		  :item="item"
 		  @closeAddTaskPopup="closeAddTaskPopup"
 		  @AddNewTask="AddNewTask"
-		  :item="item"
+	  
 	  />
 	  <addTaskFromCompanyPopup
 		  v-if="toggleChecked && taskPopupVisible"
+		  :item="item"
 		  @closeAddTaskPopup="closeAddTaskPopup"
 		  @AddNewTaskInCompany="AddNewTaskInCompany"
-		  :item="item"
+	  
 	  />
 	  <addUserFormCompanyPopup
 		  v-if="toggleChecked && isInfoPopupVisible"
@@ -32,18 +34,19 @@
 	  />
 	  <addTaskCalendarPopup
 		  v-if="!toggleChecked && taskCalendarPopupVisible"
-		  @closeAddTaskCalendarPopup="closeAddTaskCalendarPopup"
-		  @AddNewTaskClickedCalendar="AddNewTaskClickedCalendar"
 		  :item="item"
 		  :customer="customer"
 		  :ArraySelectedDays="ArraySelectedDays"
+		  @closeAddTaskCalendarPopup="closeAddTaskCalendarPopup"
+		  @AddNewTaskClickedCalendar="AddNewTaskClickedCalendar"
+		  @addVacationOrStickDay="addVacationOrStickDay"
 	  />
 	  <addTaskOnClickUnderTheHading
 		  v-if=" !toggleChecked && addTaskCalendarPopupVisibleOnClickUnderTheHading"
-		  @closeAddTaskPopup="closeAddTaskPopup"
-		  @addTaskOnClickUnderTheHading="addTaskOnClickUnderTheHading"
 		  :item="item"
 		  :customer="customer"
+		  @closeAddTaskPopup="closeAddTaskPopup"
+		  @addTaskOnClickUnderTheHading="addTaskOnClickUnderTheHading"
 	  />
 	  
 	  <div class="table-header-navbar-box">
@@ -52,7 +55,7 @@
 			  <input
 				  type="text"
 				  placeholder="Search..."
-				  style="width: 180px;"
+				  style="width: 180px"
 				  v-model="filteredValue"
 			  >
 		    </div>
@@ -73,8 +76,8 @@
 		    <div class="filter-button">
 			  <vSelect
 				  :options="options"
-				  @select="optionSelect"
 				  :selected="selected"
+				  @select="optionSelect"
 			  />
 			  <i class="material-icons">filter_alt</i>
 		    </div>
@@ -167,6 +170,9 @@ export default {
 	  AddNewTaskClickedCalendar(newTask, userId) {
 		this.$emit('AddNewTaskClickedCalendar', newTask, userId)
 	  },
+	  addVacationOrStickDay(selectedDays, userId, pickedValue) {
+		this.$emit('addVacationOrStickDay', selectedDays, userId, pickedValue)
+	  },
 	  AddNewTaskInCompany(newUser, newTask) {
 		this.$emit('AddNewTaskInCompany', newUser, newTask)
 	  },
@@ -183,12 +189,9 @@ export default {
 		this.rangeDayArray = rangeDayArray
 		this.$emit('rangeDayArray', this.rangeDayArray)
 	  },
-	  
-	  
 	  prevMonth() {
 		this.clickedCalendar = false
 		this.$emit('clickedCalendarValue', this.clickedCalendar)
-		
 		if (this.rangeDayArray.length > 0) {
 		    if (this.monthsName[new Date(this.dayFinish).getMonth() + 1] === undefined) {
 			  this.currentMonth = this.monthsName[0]
